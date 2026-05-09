@@ -1,0 +1,8 @@
+{
+  "dir": "/home/mattr/printing-press/.runstate/mattr-cbe4858d/runs/20260509-053752/working/google-search-console-pp-cli",
+  "workflows": null,
+  "verdict": "workflow-pass",
+  "issues": [
+    "no workflow manifest found, skipping"
+  ]
+}
