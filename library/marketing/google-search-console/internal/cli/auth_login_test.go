@@ -91,7 +91,7 @@ func TestWaitForCallbackHappyPath(t *testing.T) {
 		t.Fatalf("startLoopback: %v", err)
 	}
 	defer ln.Close()
-	port := ln.Addr().(*net.TCPAddr).Port
+	addr := ln.Addr().(*net.TCPAddr)
 
 	state := "test-state-abc"
 	wantCode := "the-actual-code"
@@ -111,7 +111,7 @@ func TestWaitForCallbackHappyPath(t *testing.T) {
 	time.Sleep(50 * time.Millisecond)
 	cbURL := url.URL{
 		Scheme:   "http",
-		Host:     net.JoinHostPort("127.0.0.1", strconv.Itoa(port)),
+		Host:     net.JoinHostPort(addr.IP.String(), strconv.Itoa(addr.Port)),
 		Path:     "/callback",
 		RawQuery: "state=" + state + "&code=" + wantCode,
 	}
@@ -139,7 +139,7 @@ func TestWaitForCallbackStateMismatchRejected(t *testing.T) {
 		t.Fatalf("startLoopback: %v", err)
 	}
 	defer ln.Close()
-	port := ln.Addr().(*net.TCPAddr).Port
+	addr := ln.Addr().(*net.TCPAddr)
 
 	expected := "the-real-state"
 
@@ -155,7 +155,7 @@ func TestWaitForCallbackStateMismatchRejected(t *testing.T) {
 	// Hit with WRONG state — should 404, never affect waitForCallback's channel.
 	wrong := url.URL{
 		Scheme:   "http",
-		Host:     net.JoinHostPort("127.0.0.1", strconv.Itoa(port)),
+		Host:     net.JoinHostPort(addr.IP.String(), strconv.Itoa(addr.Port)),
 		Path:     "/callback",
 		RawQuery: "state=ATTACKER-STATE&code=evil",
 	}
@@ -185,7 +185,7 @@ func TestWaitForCallbackErrorParam(t *testing.T) {
 		t.Fatalf("startLoopback: %v", err)
 	}
 	defer ln.Close()
-	port := ln.Addr().(*net.TCPAddr).Port
+	addr := ln.Addr().(*net.TCPAddr)
 
 	state := "any-state"
 	errCh := make(chan error, 1)
@@ -197,7 +197,7 @@ func TestWaitForCallbackErrorParam(t *testing.T) {
 	time.Sleep(50 * time.Millisecond)
 	cbURL := url.URL{
 		Scheme:   "http",
-		Host:     net.JoinHostPort("127.0.0.1", strconv.Itoa(port)),
+		Host:     net.JoinHostPort(addr.IP.String(), strconv.Itoa(addr.Port)),
 		Path:     "/callback",
 		RawQuery: "state=" + state + "&error=access_denied&error_description=user+cancelled",
 	}

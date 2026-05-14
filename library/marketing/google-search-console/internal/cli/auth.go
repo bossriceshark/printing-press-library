@@ -12,8 +12,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/spf13/cobra"
 	"github.com/mvanhorn/printing-press-library/library/marketing/google-search-console/internal/config"
+	"github.com/spf13/cobra"
 )
 
 func newAuthCmd(flags *rootFlags) *cobra.Command {
@@ -128,7 +128,11 @@ func newAuthSetTokenCmd(flags *rootFlags) *cobra.Command {
 			// auth_header value (common after regenerate) shadows the saved
 			// token and set-token silently has no effect.
 			cfg.AuthHeaderVal = ""
-			if err := cfg.SaveTokens(cfg.ClientID, cfg.ClientSecret, args[0], cfg.RefreshToken, cfg.TokenExpiry); err != nil {
+			// PATCH(oauth-login): clear RefreshToken and TokenExpiry so the auto-refresh
+			// gate in client.authHeader() does not silently swap the just-pasted token
+			// for one obtained via the stale refresh token. Keep ClientID/ClientSecret
+			// so a later "auth login" does not require a re-"set-client".
+			if err := cfg.SaveTokens(cfg.ClientID, cfg.ClientSecret, args[0], "", time.Time{}); err != nil {
 				return configErr(fmt.Errorf("saving token: %w", err))
 			}
 
