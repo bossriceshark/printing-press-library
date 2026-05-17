@@ -5,6 +5,7 @@ package cli
 import (
 	"database/sql"
 	"fmt"
+	"os"
 	"sort"
 	"strings"
 
@@ -61,7 +62,7 @@ campaign. Run 'smartlead-pp-cli sync' first to populate the mirror.`, "\n"),
 			}
 			defer db.Close()
 
-			campaigns, err := loadCampaignMeta(db.DB(), campaignID)
+			campaigns, err := loadCampaignMeta(cmd.Context(), db.DB(), campaignID)
 			if err != nil {
 				return err
 			}
@@ -80,6 +81,11 @@ campaign. Run 'smartlead-pp-cli sync' first to populate the mirror.`, "\n"),
 					}
 				}
 				rows.Close()
+				if rerr := rows.Err(); rerr != nil {
+					fmt.Fprintf(os.Stderr, "warning: campaign lead counts incomplete: %v\n", rerr)
+				}
+			} else {
+				fmt.Fprintf(os.Stderr, "warning: campaign lead counts unavailable (%v); leads will show 0 — run 'sync' first\n", qerr)
 			}
 
 			// Per-campaign, per-lead aggregation from the statistics table.
@@ -128,6 +134,9 @@ campaign. Run 'smartlead-pp-cli sync' first to populate the mirror.`, "\n"),
 				}
 			}
 			rows.Close()
+			if rerr := rows.Err(); rerr != nil {
+				return apiErr(fmt.Errorf("reading statistics: %w", rerr))
+			}
 
 			now := nowUTC()
 			var out []campaignHealth

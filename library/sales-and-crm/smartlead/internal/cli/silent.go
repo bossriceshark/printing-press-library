@@ -59,7 +59,7 @@ SmartLead endpoint answers "sent but no reply in N days". Run
 			}
 			defer db.Close()
 
-			campaigns, err := loadCampaignMeta(db.DB(), campaignID)
+			campaigns, err := loadCampaignMeta(cmd.Context(), db.DB(), campaignID)
 			if err != nil {
 				return err
 			}
@@ -111,6 +111,9 @@ SmartLead endpoint answers "sent but no reply in N days". Run
 				}
 			}
 			rows.Close()
+			if rerr := rows.Err(); rerr != nil {
+				return apiErr(fmt.Errorf("reading statistics: %w", rerr))
+			}
 
 			now := nowUTC()
 			var out []silentLead

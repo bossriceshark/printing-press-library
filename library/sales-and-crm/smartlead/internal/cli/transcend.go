@@ -136,7 +136,7 @@ type campaignMeta struct {
 
 // loadCampaignMeta reads campaign id -> name/status from the local mirror.
 // When onlyID is non-empty the map is restricted to that campaign.
-func loadCampaignMeta(conn *sql.DB, onlyID string) (map[string]campaignMeta, error) {
+func loadCampaignMeta(ctx context.Context, conn *sql.DB, onlyID string) (map[string]campaignMeta, error) {
 	q := `SELECT id, json_extract(data,'$.name'), json_extract(data,'$.status')
 		FROM resources WHERE resource_type = 'campaigns'`
 	args := []any{}
@@ -144,7 +144,7 @@ func loadCampaignMeta(conn *sql.DB, onlyID string) (map[string]campaignMeta, err
 		q += " AND id = ?"
 		args = append(args, onlyID)
 	}
-	rows, err := conn.Query(q, args...)
+	rows, err := conn.QueryContext(ctx, q, args...)
 	if err != nil {
 		return nil, apiErr(fmt.Errorf("reading campaigns: %w", err))
 	}

@@ -59,10 +59,7 @@ ranking is computed here.`, "\n"),
 			}
 
 			var out []senderHealth
-			for i, raw := range accounts {
-				if limit > 0 && i >= limit {
-					break
-				}
+			for _, raw := range accounts {
 				var acct map[string]any
 				if json.Unmarshal(raw, &acct) != nil {
 					continue
@@ -112,6 +109,13 @@ ranking is computed here.`, "\n"),
 				}
 				return out[i].FromEmail < out[j].FromEmail
 			})
+
+			// --limit selects the worst N accounts across the whole fleet,
+			// so it applies after scoring and sorting. Filtering during the
+			// build loop above would sample in arbitrary API order.
+			if limit > 0 && len(out) > limit {
+				out = out[:limit]
+			}
 
 			if flags.asJSON || !isTerminal(cmd.OutOrStdout()) {
 				return printJSONFiltered(cmd.OutOrStdout(), out, flags)

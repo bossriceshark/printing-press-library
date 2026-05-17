@@ -59,7 +59,7 @@ is campaign-scoped and cannot answer this in one call. Run
 			}
 			defer db.Close()
 
-			campaigns, err := loadCampaignMeta(db.DB(), "")
+			campaigns, err := loadCampaignMeta(cmd.Context(), db.DB(), "")
 			if err != nil {
 				return err
 			}
