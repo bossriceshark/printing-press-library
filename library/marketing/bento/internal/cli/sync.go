@@ -205,7 +205,7 @@ Resource scoping:
 				go func() {
 					defer wg.Done()
 					for resource := range work {
-						res := syncResource(cmd.Context(), c, db, resource, sinceTS, full, maxPages, effectiveLatestOnly, userParams)
+						res := syncResource(cmd.Context(), c, db, resource, sinceTS, full, maxPages, effectiveLatestOnly, userParams, flags)
 						results <- res
 					}
 				}()
@@ -335,7 +335,7 @@ Resource scoping:
 func syncResource(ctx context.Context, c interface {
 	Get(context.Context, string, map[string]string) (json.RawMessage, error)
 	RateLimit() float64
-}, db *store.Store, resource, sinceTS string, full bool, maxPages int, latestOnly bool, userParams *syncUserParams) syncResult {
+}, db *store.Store, resource, sinceTS string, full bool, maxPages int, latestOnly bool, userParams *syncUserParams, flags *rootFlags) syncResult {
 	started := time.Now()
 
 	if !humanFriendly {
@@ -449,10 +449,11 @@ func syncResource(ctx context.Context, c interface {
 		userParams.applyTo(resource, params, false)
 
 		// Bento requires site_uuid on every /api/v1/* request. Inject from env
-		// if the params didn't already include it (other paths short-circuit on
-		// non-Bento checks at the top of this loop).
+		// or config if the params didn't already include it. resolveSiteUUID
+		// checks (1) flagValue, (2) BENTO_SITE_UUID env, (3) cfg.BentoSiteUuid
+		// so the config-file path is honoured even without the env var set.
 		if _, has := params["site_uuid"]; !has {
-			if su := os.Getenv("BENTO_SITE_UUID"); su != "" {
+			if su := resolveSiteUUID("", flags); su != "" {
 				params["site_uuid"] = su
 			}
 		}

@@ -11,6 +11,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"hash/fnv"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -763,16 +764,20 @@ func extractObjectID(obj map[string]any) string {
 // ftsRowID derives a deterministic rowid from a string ID for use with FTS5.
 // modernc.org/sqlite's FTS5 implementation may not support DELETE WHERE column=?
 // on virtual tables, so we use explicit rowids and DELETE WHERE rowid=? instead.
+//
+// Uses fnv64a (stdlib, no new deps) instead of a 31-multiplier polynomial hash
+// because Bento IDs are short and numerically similar ("1464", "1465",
+// "70064351"). The polynomial hash has weak avalanche on inputs like these,
+// so two distinct (scope, id) pairs could collide on the truncated 63-bit
+// rowid — and DELETE WHERE rowid=? would then silently nuke the wrong FTS row.
+// A 0x00 byte delimiter prevents (scope="ab", id="c") aliasing (scope="a",
+// id="bc") since fnv is order-sensitive on a flat byte stream.
 func ftsRowID(scope, id string) int64 {
-	var h uint64
-	for _, c := range scope {
-		h = h*31 + uint64(c)
-	}
-	h *= 31
-	for _, c := range id {
-		h = h*31 + uint64(c)
-	}
-	return int64(h & 0x7FFFFFFFFFFFFFFF) // ensure positive
+	h := fnv.New64a()
+	h.Write([]byte(scope))
+	h.Write([]byte{0}) // delimiter; prevents scope/id boundary aliasing
+	h.Write([]byte(id))
+	return int64(h.Sum64() & 0x7FFFFFFFFFFFFFFF) // non-negative for SQLite ROWID
 }
 
 // LookupFieldValue resolves a field value from a JSON object map, trying the

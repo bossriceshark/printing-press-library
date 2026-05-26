@@ -103,6 +103,35 @@
       "files": [
         "research.json"
       ]
+    },
+    {
+      "id": "auth-set-token-persists-all-three-credentials",
+      "summary": "auth set-token now accepts/persists all three Bento credentials (publishable key + secret key + site UUID) as positional args; SaveCredential signature widened from (token) to (pk, sk, siteUuid); auth setup + auth status prose corrected.",
+      "reason": "Greptile P1: SaveCredential() wrote only BentoPublishableKey, but AuthHeader() requires BOTH pk AND sk (Bento Basic auth) plus site_uuid on every request. Single-arg set-token left users with 401s the moment env vars were unset.",
+      "review_url": "https://github.com/mvanhorn/printing-press-library/pull/869",
+      "files": [
+        "internal/config/config.go",
+        "internal/cli/auth.go"
+      ]
+    },
+    {
+      "id": "sync-site-uuid-honours-config-file",
+      "summary": "sync.go injects site_uuid via resolveSiteUUID(\"\", flags) instead of os.Getenv(\"BENTO_SITE_UUID\") so the config-file path is honoured even without the env var set; syncResource() signature gained *rootFlags param (call sites in sync.go + channel_workflow.go updated).",
+      "reason": "Greptile P1: every other command resolved site_uuid via the (flag -> env -> config) helper; sync skipped step 3 and silently failed for users who had only run auth set-token without exporting BENTO_SITE_UUID.",
+      "review_url": "https://github.com/mvanhorn/printing-press-library/pull/869",
+      "files": [
+        "internal/cli/sync.go",
+        "internal/cli/channel_workflow.go"
+      ]
+    },
+    {
+      "id": "fts-rowid-fnv64a-collision-resistance",
+      "summary": "ftsRowID swapped from 31-multiplier polynomial hash to fnv64a (stdlib hash/fnv) with 0x00 delimiter between scope and id.",
+      "reason": "Greptile P2: Bento IDs are short and numerically similar (\"1464\", \"1465\", \"70064351\"). The polynomial hash has weak avalanche on these inputs; a collision on the truncated 63-bit rowid would cause DELETE WHERE rowid=? to silently nuke the wrong FTS row, leaving stale/missing search results. fnv64a is order-sensitive on a flat byte stream and has much stronger distribution; the delimiter prevents scope/id boundary aliasing.",
+      "review_url": "https://github.com/mvanhorn/printing-press-library/pull/869",
+      "files": [
+        "internal/store/store.go"
+      ]
     }
   ]
 }

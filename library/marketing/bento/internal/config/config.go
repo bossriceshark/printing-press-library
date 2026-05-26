@@ -129,18 +129,20 @@ func (c *Config) SaveTokens(clientID, clientSecret, accessToken, refreshToken st
 	return c.save()
 }
 
-// SaveCredential persists a single API credential to the field that
-// AuthHeader() consults for api_key auth. Writing to AccessToken (the
-// bearer slot) would silently no-op since AuthHeader() reads the env-var-
-// derived field, not AccessToken, when Auth.Type == "api_key".
+// SaveCredential persists Bento's three-part API credential to the fields
+// AuthHeader() consults. Bento uses HTTP Basic where username=publishable
+// key and password=secret key, AND every /api/v1/* request needs a
+// site_uuid query param — so persisting only one of the three leaves
+// AuthHeader() returning "" (401 on every call) when env vars are absent.
 //
-// The clears precede the assignment so a canonical env-var whose placeholder
-// collides with a builtin tag (e.g. an env var named XXX_ACCESS_TOKEN
-// resolving to the AccessToken field) ends up holding the new token.
-func (c *Config) SaveCredential(token string) error {
+// The clears precede the assignments so a stale auth_header or access_token
+// (common after regenerate) can't shadow the freshly-saved credentials.
+func (c *Config) SaveCredential(publishableKey, secretKey, siteUuid string) error {
 	c.AuthHeaderVal = ""
 	c.AccessToken = ""
-	c.BentoPublishableKey = token
+	c.BentoPublishableKey = publishableKey
+	c.BentoSecretKey = secretKey
+	c.BentoSiteUuid = siteUuid
 	return c.save()
 }
 

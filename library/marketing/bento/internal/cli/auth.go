@@ -36,13 +36,15 @@ func newAuthSetupCmd(_ *rootFlags) *cobra.Command {
 		Example: "  bento-pp-cli auth setup\n  bento-pp-cli auth setup --launch",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			w := cmd.OutOrStdout()
-			fmt.Fprintln(w, "No setup URL is configured for this CLI; check the API's docs.")
+			fmt.Fprintln(w, "Grab your credentials from https://app.bentonow.com/account/teams (API Keys + Site UUID).")
 			fmt.Fprintln(w, "")
-			fmt.Fprintln(w, "Then set:")
-			fmt.Fprintln(w, "  export BENTO_PUBLISHABLE_KEY=\"<your-token>\"")
-			fmt.Fprintln(w, "  export BENTO_SECRET_KEY=\"<your-token>\"")
-			fmt.Fprintln(w, "  export BENTO_SITE_UUID=\"<your-token>\"")
-			fmt.Fprintln(w, "  bento-pp-cli auth set-token <token>")
+			fmt.Fprintln(w, "Bento requires all THREE credentials (publishable key + secret key + site UUID):")
+			fmt.Fprintln(w, "  export BENTO_PUBLISHABLE_KEY=\"<publishable-key>\"")
+			fmt.Fprintln(w, "  export BENTO_SECRET_KEY=\"<secret-key>\"")
+			fmt.Fprintln(w, "  export BENTO_SITE_UUID=\"<site-uuid>\"")
+			fmt.Fprintln(w, "")
+			fmt.Fprintln(w, "Or persist them to the config file (writes all three at once):")
+			fmt.Fprintln(w, "  bento-pp-cli auth set-token <publishable-key> <secret-key> <site-uuid>")
 			if !launch {
 				return nil
 			}
@@ -89,11 +91,13 @@ func newAuthStatusCmd(flags *rootFlags) *cobra.Command {
 			if !authed {
 				fmt.Fprintln(w, red("Not authenticated"))
 				fmt.Fprintln(w, "")
-				fmt.Fprintln(w, "Set your token:")
-				fmt.Fprintln(w, "  export BENTO_PUBLISHABLE_KEY=\"your-token-here\"")
-				fmt.Fprintln(w, "  export BENTO_SECRET_KEY=\"your-token-here\"")
-				fmt.Fprintln(w, "  export BENTO_SITE_UUID=\"your-token-here\"")
-				fmt.Fprintf(w, "  bento-pp-cli auth set-token <token>\n")
+				fmt.Fprintln(w, "Bento requires all THREE credentials. Either export them:")
+				fmt.Fprintln(w, "  export BENTO_PUBLISHABLE_KEY=\"<publishable-key>\"")
+				fmt.Fprintln(w, "  export BENTO_SECRET_KEY=\"<secret-key>\"")
+				fmt.Fprintln(w, "  export BENTO_SITE_UUID=\"<site-uuid>\"")
+				fmt.Fprintln(w, "")
+				fmt.Fprintln(w, "Or persist them to the config file:")
+				fmt.Fprintf(w, "  bento-pp-cli auth set-token <publishable-key> <secret-key> <site-uuid>\n")
 				return authErr(fmt.Errorf("no credentials configured"))
 			}
 
@@ -107,10 +111,13 @@ func newAuthStatusCmd(flags *rootFlags) *cobra.Command {
 
 func newAuthSetTokenCmd(flags *rootFlags) *cobra.Command {
 	return &cobra.Command{
-		Use:     "set-token <token>",
-		Short:   "Save an API token to the config file",
-		Example: "  bento-pp-cli auth set-token YOUR_TOKEN_HERE",
-		Args:    cobra.ExactArgs(1),
+		Use:   "set-token <publishable-key> <secret-key> <site-uuid>",
+		Short: "Save Bento's three-part credential (publishable key + secret key + site UUID) to the config file",
+		Long: "Bento authenticates via HTTP Basic (username=publishable key, password=secret key) AND requires\n" +
+			"a site_uuid query param on every /api/v1/* request. All three must be persisted together\n" +
+			"or AuthHeader() returns empty and every API call fails with 401.",
+		Example: "  bento-pp-cli auth set-token bento-pub-xxx bento-secret-yyy 00000000-0000-0000-0000-000000000000",
+		Args:    cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cfg, err := config.Load(flags.configPath)
 			if err != nil {
@@ -118,18 +125,17 @@ func newAuthSetTokenCmd(flags *rootFlags) *cobra.Command {
 			}
 
 			// Clear any legacy auth_header so AuthHeader() falls through to
-			// the newly-saved credential. Without this, a pre-existing
+			// the newly-saved credentials. Without this, a pre-existing
 			// auth_header value (common after regenerate) shadows the saved
-			// token and set-token silently has no effect. Silent clear (no
-			// log line): a masked-tail variant could leak token bytes through
-			// scripted dogfood that captures stderr.
+			// pk/sk pair and set-token silently has no effect. Silent clear
+			// (no log line): a masked-tail variant could leak token bytes
+			// through scripted dogfood that captures stderr.
 			cfg.AuthHeaderVal = ""
-			// api_key auth: AuthHeader() reads the env-var-derived field, not
-			// AccessToken. Writing the token to AccessToken via SaveTokens
-			// would persist the bytes but leave doctor reporting "not
-			// configured" — the slot the header builder consults stays empty.
-			if err := cfg.SaveCredential(args[0]); err != nil {
-				return configErr(fmt.Errorf("saving token: %w", err))
+			// Persist all three credentials atomically. Writing only one
+			// leaves AuthHeader() returning "" when env vars are absent
+			// because Basic-auth requires both pk and sk.
+			if err := cfg.SaveCredential(args[0], args[1], args[2]); err != nil {
+				return configErr(fmt.Errorf("saving credentials: %w", err))
 			}
 
 			// JSON envelope: {saved, config_path}.
@@ -139,7 +145,7 @@ func newAuthSetTokenCmd(flags *rootFlags) *cobra.Command {
 					"config_path": cfg.Path,
 				}, flags)
 			}
-			fmt.Fprintf(cmd.OutOrStdout(), "Token saved to %s\n", cfg.Path)
+			fmt.Fprintf(cmd.OutOrStdout(), "Credentials saved to %s\n", cfg.Path)
 			return nil
 		},
 	}
