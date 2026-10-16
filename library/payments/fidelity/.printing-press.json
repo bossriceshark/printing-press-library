@@ -1,0 +1,97 @@
+{
+  "schema_version": 2,
+  "generated_at": "2026-10-16T01:23:18.76749883Z",
+  "printing_press_version": "4.33.5",
+  "api_name": "fidelity",
+  "display_name": "Fidelity",
+  "cli_name": "fidelity-pp-cli",
+  "creator": {
+    "handle": "bossriceshark",
+    "name": "Cursor Agent"
+  },
+  "owner": "bossriceshark",
+  "printer": "bossriceshark",
+  "printer_name": "Cursor Agent",
+  "spec_path": "spec.yaml",
+  "spec_format": "internal",
+  "spec_source": "docs",
+  "spec_checksum": "sha256:0e07374b881fa1a37a5972e4e025b1aadedcf3e866295620e6f5bbb2faabbb7e",
+  "run_id": "20261016-004326-7fda886a",
+  "category": "payments",
+  "description": "Read a Fidelity book from the official CSV exports, with portfolio, activity, and coverage queries no spreadsheet has.",
+  "mcp_binary": "fidelity-pp-mcp",
+  "mcp_tool_count": 3,
+  "mcp_public_tool_count": 3,
+  "mcp_ready": "full",
+  "api_version": "0.1.0",
+  "auth_type": "none",
+  "novel_features": [
+    {
+      "name": "Portfolio summary",
+      "command": "portfolio summary",
+      "description": "See per-account and whole-book market value, cash versus invested, unrealized gain, and the largest positions from the latest export."
+    },
+    {
+      "name": "Activity summary",
+      "command": "activity summary",
+      "description": "Total imported history by action, including dividends, commissions, and fees, over a run-date window."
+    },
+    {
+      "name": "Changes since previous import",
+      "command": "changes",
+      "description": "Show holdings that appeared, disappeared, or changed quantity after a newer positions file, plus history rows from the latest history import."
+    },
+    {
+      "name": "Cross-account symbol total",
+      "command": "symbols total",
+      "description": "Sum one symbol's shares, market value, cost basis, and gain across brokerage and retirement accounts."
+    },
+    {
+      "name": "Per-account export coverage",
+      "command": "coverage",
+      "description": "Show which accounts have a positions snapshot, which have history, and the run-date span of that history."
+    }
+  ],
+  "novel_features_built": [
+    {
+      "name": "Portfolio summary",
+      "command": "portfolio summary",
+      "description": "See per-account and whole-book market value, cash versus invested, unrealized gain, and the largest positions from the latest export."
+    },
+    {
+      "name": "Activity summary",
+      "command": "activity summary",
+      "description": "Total imported history by action, including dividends, commissions, and fees, over a run-date window."
+    },
+    {
+      "name": "Changes since previous import",
+      "command": "changes",
+      "description": "Show holdings that appeared, disappeared, or changed quantity after a newer positions file, plus history rows from the latest history import."
+    },
+    {
+      "name": "Cross-account symbol total",
+      "command": "symbols total",
+      "description": "Sum one symbol's shares, market value, cost basis, and gain across brokerage and retirement accounts."
+    },
+    {
+      "name": "Per-account export coverage",
+      "command": "coverage",
+      "description": "Show which accounts have a positions snapshot, which have history, and the run-date span of that history."
+    }
+  ],
+  "verify": {
+    "mode": "mock",
+    "pass_rate": 100,
+    "passed": 34,
+    "total": 34,
+    "data_pipeline": true,
+    "verdict": "PASS"
+  },
+  "scorecard": {
+    "steinberger": {
+      "percentage": 96,
+      "grade": "A",
+      "total": 96
+    }
+  }
+}

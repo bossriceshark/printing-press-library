@@ -1,0 +1,8 @@
+# Root-anchored so cmd/<binary>/ source stays tracked.
+/fidelity-pp-cli
+/fidelity-pp-cli.exe
+/fidelity-pp-mcp
+/fidelity-pp-mcp.exe
+/bin/
+/build/
+/dist/

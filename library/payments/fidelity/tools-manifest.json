@@ -1,0 +1,90 @@
+{
+  "api_name": "fidelity",
+  "base_url": "",
+  "description": "Read a Fidelity book from the official CSV exports, with portfolio, activity, and coverage queries no spreadsheet has.",
+  "mcp_ready": "full",
+  "http_transport": "standard",
+  "auth": {
+    "type": "none"
+  },
+  "required_headers": [],
+  "tools": [
+    {
+      "name": "accounts_list",
+      "description": "List accounts imported from positions and history CSV files. Returns array of Account.",
+      "method": "GET",
+      "path": "/accounts",
+      "no_auth": true,
+      "params": []
+    },
+    {
+      "name": "positions_list",
+      "description": "List holdings from the latest imported positions snapshot. Optional: account, symbol. Returns array of Position.",
+      "method": "GET",
+      "path": "/positions",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "account",
+          "type": "string",
+          "location": "query",
+          "description": "Limit to one account number from the export"
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "location": "query",
+          "description": "Limit to one ticker or cash symbol"
+        }
+      ]
+    },
+    {
+      "name": "transactions_list",
+      "description": "List imported activity rows. Optional: account, symbol. Returns array of Transaction.",
+      "method": "GET",
+      "path": "/transactions",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "account",
+          "type": "string",
+          "location": "query",
+          "description": "Limit to one account number"
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "location": "query",
+          "description": "Limit to one ticker"
+        }
+      ]
+    }
+  ],
+  "novel_features": [
+    {
+      "name": "Portfolio summary",
+      "command": "portfolio summary",
+      "description": "See per-account and whole-book market value, cash versus invested, unrealized gain, and the largest positions from the latest export."
+    },
+    {
+      "name": "Activity summary",
+      "command": "activity summary",
+      "description": "Total imported history by action, including dividends, commissions, and fees, over a run-date window."
+    },
+    {
+      "name": "Changes since previous import",
+      "command": "changes",
+      "description": "Show holdings that appeared, disappeared, or changed quantity after a newer positions file, plus history rows from the latest history import."
+    },
+    {
+      "name": "Cross-account symbol total",
+      "command": "symbols total",
+      "description": "Sum one symbol's shares, market value, cost basis, and gain across brokerage and retirement accounts."
+    },
+    {
+      "name": "Per-account export coverage",
+      "command": "coverage",
+      "description": "Show which accounts have a positions snapshot, which have history, and the run-date span of that history."
+    }
+  ]
+}

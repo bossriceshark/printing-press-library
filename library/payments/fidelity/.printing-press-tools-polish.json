@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-10-16T01:21:01.388116852Z",
+  "cli_dir": "\u003ccli-dir\u003e/fidelity-pp-cli",
+  "findings": null,
+  "scorecard_before": {
+    "mcp_description_quality": 10,
+    "captured": "2026-10-16T01:21:01.388118161Z"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "manifest_version": "0.3",
+  "name": "fidelity-pp-mcp",
+  "display_name": "Fidelity",
+  "version": "0.1.0",
+  "description": "Read a Fidelity book from the official CSV exports, with portfolio, activity, and coverage queries no spreadsheet has.",
+  "author": {
+    "name": "CLI Printing Press"
+  },
+  "license": "Apache-2.0",
+  "server": {
+    "type": "binary",
+    "entry_point": "bin/fidelity-pp-mcp",
+    "mcp_config": {
+      "command": "${__dirname}/bin/fidelity-pp-mcp",
+      "args": [],
+      "env": {
+        "FIDELITY_BASE_URL": "${user_config.fidelity_base_url}"
+      }
+    }
+  },
+  "user_config": {
+    "fidelity_base_url": {
+      "type": "string",
+      "title": "FIDELITY_BASE_URL",
+      "description": "Sets FIDELITY_BASE_URL for the Fidelity MCP server. Per-instance, non-secret setting; not a credential.",
+      "required": true
+    }
+  },
+  "compatibility": {
+    "claude_desktop": ">=1.0.0",
+    "platforms": [
+      "darwin",
+      "linux",
+      "win32"
+    ]
+  }
+}
