@@ -1,0 +1,10 @@
+https://www.fidelity.com/
+https://www.fidelity.com/customer-service/faqs-exporting-account-information
+https://digital.fidelity.com/prgw/digital/customer-service/
+https://workplacexchange.fidelity.com/public/wpx/docs/wi-balances
+https://workplacexchange.fidelity.com/public/wpx/api-catalog/authentication
+https://raw.githubusercontent.com/api-evangelist/fidelity-investments/refs/heads/main/apis.yml
+https://www.reddit.com/r/fidelityinvestments/comments/vk8gp2/
+https://www.reddit.com/r/fidelityinvestments/comments/1fgfxwu/
+https://github.com/gerardrbentley/fidelity-account-overview
+https://github.com/sztupkay/fidelity_csv_converter

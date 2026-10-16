@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "applied_at": "2026-10-16",
+  "base_run_id": "20261016-004326-7fda886a",
+  "base_printing_press_version": "4.33.5",
+  "patches": [
+    {
+      "id": "local-csv-ledger",
+      "summary": "Import official Fidelity positions and history CSV files into a local SQLite ledger and answer portfolio, activity, change, symbol, and coverage questions from that ledger.",
+      "reason": "Fidelity publishes no retail brokerage API. The printed CLI is read-only and credential-free; owners download CSV exports and import them locally.",
+      "files": [
+        "internal/fidelitycsv/csv.go",
+        "internal/ledger/ledger.go",
+        "internal/cli/import_cmd.go",
+        "internal/cli/ledger_run.go",
+        "internal/cli/portfolio_summary.go",
+        "internal/cli/activity_summary.go",
+        "internal/cli/changes.go",
+        "internal/cli/symbols_total.go",
+        "internal/cli/coverage.go",
+        "internal/store/delete_ids.go"
+      ],
+      "validated_outcome": "go test ./internal/ledger ./internal/fidelitycsv ./internal/cli passed. Shipcheck 7/7, scorecard 96/100."
+    },
+    {
+      "id": "local-read-dry-run",
+      "summary": "Promoted list commands honor --dry-run, and an empty ledger returns an empty JSON array.",
+      "reason": "Verify treats --dry-run as a required path. A fresh SQLite file has no rows yet, so the generated empty-database error blocked the dry-run and exec legs.",
+      "files": [
+        "internal/cli/promoted_accounts.go",
+        "internal/cli/promoted_positions.go",
+        "internal/cli/promoted_transactions.go",
+        "internal/cli/data_source.go"
+      ],
+      "validated_outcome": "verify PASS 34/34 including accounts, positions, and transactions dry-run."
+    },
+    {
+      "id": "sync-refuses-network",
+      "summary": "sync explains that there is no retail API and points at import, while still naming the local resources the ledger fills.",
+      "reason": "The generator emitted a network sync. Calling it would invent a Fidelity endpoint. Dogfood still requires a non-empty population path and live helper references.",
+      "files": [
+        "internal/cli/sync.go"
+      ],
+      "validated_outcome": "dogfood PASS with 0 dead functions and 5/5 novel features."
+    }
+  ]
+}

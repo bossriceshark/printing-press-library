@@ -1,0 +1,275 @@
+{
+  "api_name": "fidelity",
+  "novelty_score": 8,
+  "alternatives": [
+    {
+      "name": "fidelity-account-overview",
+      "url": "https://github.com/gerardrbentley/fidelity-account-overview",
+      "language": "Python",
+      "install_method": "",
+      "stars": 0,
+      "last_updated": "",
+      "command_count": 1,
+      "has_json_output": false,
+      "has_auth_support": false
+    },
+    {
+      "name": "fidelity_csv_converter",
+      "url": "https://github.com/sztupkay/fidelity_csv_converter",
+      "language": "Python",
+      "install_method": "",
+      "stars": 0,
+      "last_updated": "",
+      "command_count": 1,
+      "has_json_output": false,
+      "has_auth_support": false
+    },
+    {
+      "name": "portfolioSummary",
+      "url": "https://github.com/rabinnh/portfolioSummary",
+      "language": "Python",
+      "install_method": "",
+      "stars": 3,
+      "last_updated": "",
+      "command_count": 1,
+      "has_json_output": false,
+      "has_auth_support": false
+    },
+    {
+      "name": "MoneydanceScripts",
+      "url": "https://github.com/tkralphs/MoneydanceScripts",
+      "language": "Python",
+      "install_method": "",
+      "stars": 0,
+      "last_updated": "",
+      "command_count": 2,
+      "has_json_output": false,
+      "has_auth_support": false
+    },
+    {
+      "name": "felix-august",
+      "url": "https://github.com/justfetz/felix-august",
+      "language": "Python",
+      "install_method": "",
+      "stars": 0,
+      "last_updated": "",
+      "command_count": 1,
+      "has_json_output": false,
+      "has_auth_support": false
+    },
+    {
+      "name": "alpha-terminal",
+      "url": "https://github.com/ronitg1/alpha-terminal",
+      "language": "Python",
+      "install_method": "",
+      "stars": 0,
+      "last_updated": "",
+      "command_count": 1,
+      "has_json_output": false,
+      "has_auth_support": false
+    },
+    {
+      "name": "claude-fidelity-mcp",
+      "url": "https://github.com/TylerFlar/claude-fidelity-mcp",
+      "language": "TypeScript",
+      "install_method": "",
+      "stars": 0,
+      "last_updated": "",
+      "command_count": 4,
+      "has_json_output": false,
+      "has_auth_support": false
+    }
+  ],
+  "gaps": [
+    "No public retail HTTP API, so there is no live sync.",
+    "Statements and tax PDFs are not in the CSV exports this CLI parses.",
+    "OFX network download is intentionally not implemented."
+  ],
+  "patterns": [
+    "Official positions and history CSV exports are the supported read path.",
+    "Parsers must skip disclaimer footers and currency formatting.",
+    "Read tools in community MCPs still depend on a browser session this CLI refuses."
+  ],
+  "recommendation": "proceed",
+  "researched_at": "2026-10-16T00:56:52Z",
+  "novel_features": [
+    {
+      "name": "Portfolio summary",
+      "command": "portfolio summary",
+      "description": "See per-account and whole-book market value, cash versus invested, unrealized gain, and the largest positions from the latest export.",
+      "rationale": "Those totals exist only after joining every account's position rows in the local ledger. No Fidelity endpoint returns them.",
+      "example": "fidelity-pp-cli portfolio summary --agent",
+      "why_it_matters": "Use this when the owner asks what the book is worth right now, split by account, without opening www.fidelity.com.",
+      "group": "Local ledger"
+    },
+    {
+      "name": "Activity summary",
+      "command": "activity summary",
+      "description": "Total imported history by action, including dividends, commissions, and fees, over a run-date window.",
+      "rationale": "History rows are per transaction. The yearly dividend total is a local sum no single export cell contains.",
+      "example": "fidelity-pp-cli activity summary --from 2026-01-01 --action DIVIDEND --agent",
+      "why_it_matters": "Use this for dividends, interest, buys, or fees over a period instead of scanning the activity CSV.",
+      "group": "Local ledger"
+    },
+    {
+      "name": "Changes since previous import",
+      "command": "changes",
+      "description": "Show holdings that appeared, disappeared, or changed quantity after a newer positions file, plus history rows from the latest history import.",
+      "rationale": "The export is a snapshot. The delta exists only if the CLI kept the previous snapshot.",
+      "example": "fidelity-pp-cli changes --account Z1234567 --agent",
+      "why_it_matters": "Use this after a fresh download when the question is what moved, not what is held now.",
+      "group": "Local ledger"
+    },
+    {
+      "name": "Cross-account symbol total",
+      "command": "symbols total",
+      "description": "Sum one symbol's shares, market value, cost basis, and gain across brokerage and retirement accounts.",
+      "rationale": "The same ETF can sit in several accounts in one positions file. The total is a local join.",
+      "example": "fidelity-pp-cli symbols total VTI --agent",
+      "why_it_matters": "Use this when the owner asks where a ticker is held and how much, across accounts.",
+      "group": "Local ledger"
+    },
+    {
+      "name": "Per-account export coverage",
+      "command": "coverage",
+      "description": "Show which accounts have a positions snapshot, which have history, and the run-date span of that history.",
+      "rationale": "Positions and history are different files. A missing history file is invisible in a positions-only total.",
+      "example": "fidelity-pp-cli coverage --agent",
+      "why_it_matters": "Use this before trusting a book total, to see which account export is missing.",
+      "group": "Local ledger"
+    }
+  ],
+  "novel_features_built": [
+    {
+      "name": "Portfolio summary",
+      "command": "portfolio summary",
+      "description": "See per-account and whole-book market value, cash versus invested, unrealized gain, and the largest positions from the latest export.",
+      "rationale": "Those totals exist only after joining every account's position rows in the local ledger. No Fidelity endpoint returns them.",
+      "example": "fidelity-pp-cli portfolio summary --agent",
+      "why_it_matters": "Use this when the owner asks what the book is worth right now, split by account, without opening www.fidelity.com.",
+      "group": "Local ledger"
+    },
+    {
+      "name": "Activity summary",
+      "command": "activity summary",
+      "description": "Total imported history by action, including dividends, commissions, and fees, over a run-date window.",
+      "rationale": "History rows are per transaction. The yearly dividend total is a local sum no single export cell contains.",
+      "example": "fidelity-pp-cli activity summary --from 2026-01-01 --action DIVIDEND --agent",
+      "why_it_matters": "Use this for dividends, interest, buys, or fees over a period instead of scanning the activity CSV.",
+      "group": "Local ledger"
+    },
+    {
+      "name": "Changes since previous import",
+      "command": "changes",
+      "description": "Show holdings that appeared, disappeared, or changed quantity after a newer positions file, plus history rows from the latest history import.",
+      "rationale": "The export is a snapshot. The delta exists only if the CLI kept the previous snapshot.",
+      "example": "fidelity-pp-cli changes --account Z1234567 --agent",
+      "why_it_matters": "Use this after a fresh download when the question is what moved, not what is held now.",
+      "group": "Local ledger"
+    },
+    {
+      "name": "Cross-account symbol total",
+      "command": "symbols total",
+      "description": "Sum one symbol's shares, market value, cost basis, and gain across brokerage and retirement accounts.",
+      "rationale": "The same ETF can sit in several accounts in one positions file. The total is a local join.",
+      "example": "fidelity-pp-cli symbols total VTI --agent",
+      "why_it_matters": "Use this when the owner asks where a ticker is held and how much, across accounts.",
+      "group": "Local ledger"
+    },
+    {
+      "name": "Per-account export coverage",
+      "command": "coverage",
+      "description": "Show which accounts have a positions snapshot, which have history, and the run-date span of that history.",
+      "rationale": "Positions and history are different files. A missing history file is invisible in a positions-only total.",
+      "example": "fidelity-pp-cli coverage --agent",
+      "why_it_matters": "Use this before trusting a book total, to see which account export is missing.",
+      "group": "Local ledger"
+    }
+  ],
+  "auth": {},
+  "narrative": {
+    "display_name": "Fidelity",
+    "headline": "Read a Fidelity book from the official CSV exports, with portfolio, activity, and coverage queries no spreadsheet has.",
+    "value_prop": "Fidelity Investments does not publish a retail brokerage API. fidelity-pp-cli imports the positions and history CSV files the owner downloads from fidelity.com into a local SQLite ledger, then answers balances, holdings, dividends, and what changed. It never stores a password, cookie, or token, and it has no trade or transfer commands.",
+    "auth_narrative": "No credential is required. Fidelity does not offer a self-serve retail API key. Download Portfolio_Positions_MMM-DD-YYYY.csv from Accounts \u0026 Trade, Portfolio, Positions, and History_for_Account_\u003cid\u003e.csv from Activity \u0026 Orders. Import those files locally. Do not set FIDELITY_PASSWORD, FIDELITY_TOKEN, or a session cookie. WorkplaceXchange, Fidelity Access, and aggregator OAuth are separate partner programs and are not used by this CLI.",
+    "quickstart": [
+      {
+        "command": "fidelity-pp-cli doctor --dry-run",
+        "comment": "Confirm the binary is the local-ledger CLI and that no brokerage credential is required."
+      },
+      {
+        "command": "fidelity-pp-cli import positions --file ./Portfolio_Positions_Oct-16-2026.csv --dry-run",
+        "comment": "Preview a positions export before writing the ledger. Use a file you downloaded; do not commit it."
+      },
+      {
+        "command": "fidelity-pp-cli import positions --file ./Portfolio_Positions_Oct-16-2026.csv",
+        "comment": "Load holdings into the local ledger."
+      },
+      {
+        "command": "fidelity-pp-cli import history --file ./History_for_Account_Z1234567.csv",
+        "comment": "Load activity for one account. The account id is the one in the filename."
+      },
+      {
+        "command": "fidelity-pp-cli portfolio summary --agent",
+        "comment": "Read per-account market value, cash versus invested, and unrealized gain."
+      }
+    ],
+    "troubleshoots": [
+      {
+        "symptom": "import positions reports no data rows",
+        "fix": "Confirm the header row contains Account Number and Symbol. Disclaimer footer rows are skipped; a file that is only the footer will import nothing."
+      },
+      {
+        "symptom": "portfolio summary cash looks doubled",
+        "fix": "Cash versus invested uses position Type and SPAXX or FDRXX. A history Cash Balance, when present, is a separate labeled field. Do not add them."
+      },
+      {
+        "symptom": "doctor says the ledger is empty",
+        "fix": "Import a positions CSV first. There is no network sync, because Fidelity publishes no retail API."
+      }
+    ],
+    "when_to_use": "Use this CLI when an agent needs the owner's Fidelity balances, holdings, positions, or activity and the owner can download the official CSV exports. It is the right tool for offline questions against that ledger: what the book is worth, where a symbol sits, dividends in a date window, and which account file is missing.",
+    "anti_triggers": [
+      "Do not use this CLI to place trades, transfer cash, pay bills, or move money.",
+      "Do not use this CLI to log into fidelity.com or to store a password, MFA secret, or session cookie.",
+      "Do not use this CLI for live quotes. Last Price is the value from the positions export, not a market feed.",
+      "Do not use this CLI for Fidelity WorkplaceXchange plan-sponsor APIs or for SnapTrade, Plaid, or Akoya aggregator credentials."
+    ],
+    "recipes": [
+      {
+        "title": "Import and summarize",
+        "command": "fidelity-pp-cli portfolio summary --agent --select book.market_value,accounts.account_number,accounts.market_value",
+        "explanation": "Narrow the portfolio summary to book value and per-account market value."
+      },
+      {
+        "title": "Dividends this year",
+        "command": "fidelity-pp-cli activity summary --from 2026-01-01 --action DIVIDEND --agent",
+        "explanation": "Sum dividend rows in the imported history."
+      },
+      {
+        "title": "Where is VTI",
+        "command": "fidelity-pp-cli symbols total VTI --agent",
+        "explanation": "Sum one symbol across brokerage and retirement accounts."
+      },
+      {
+        "title": "What changed",
+        "command": "fidelity-pp-cli changes --account Z1234567 --agent",
+        "explanation": "Compare the latest positions file with the previous snapshot for one account."
+      },
+      {
+        "title": "Which export is missing",
+        "command": "fidelity-pp-cli coverage --agent",
+        "explanation": "See which accounts have positions, which have history, and the history date span."
+      }
+    ],
+    "trigger_phrases": [
+      "what is my Fidelity balance",
+      "list my Fidelity positions",
+      "Fidelity holdings for VTI",
+      "dividends in my Fidelity accounts",
+      "import a Fidelity positions CSV",
+      "use fidelity",
+      "run fidelity"
+    ]
+  }
+}

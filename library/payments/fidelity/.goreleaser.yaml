@@ -1,0 +1,55 @@
+version: 2
+project_name: fidelity-pp-cli
+changelog:
+  disable: true
+builds:
+  - id: fidelity-pp-cli
+    main: ./cmd/fidelity-pp-cli
+    binary: fidelity-pp-cli
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w -X github.com/mvanhorn/printing-press-library/library/payments/fidelity/internal/cli.version={{ .Version }}
+    targets:
+      - darwin_amd64
+      - darwin_arm64
+      - linux_amd64
+      - linux_arm64
+      - windows_amd64
+      - windows_arm64
+  - id: fidelity-pp-mcp
+    main: ./cmd/fidelity-pp-mcp
+    binary: fidelity-pp-mcp
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w -X main.version={{ .Version }}
+    targets:
+      - darwin_amd64
+      - darwin_arm64
+      - linux_amd64
+      - linux_arm64
+      - windows_amd64
+      - windows_arm64
+archives:
+  - formats: [tar.gz]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+checksum:
+  name_template: checksums.txt
+brews:
+  - name: fidelity-pp-cli
+    repository:
+      owner: 
+      name: homebrew-tap
+    homepage: "https://github.com//fidelity-pp-cli"
+    description: "Read a Fidelity book from the official CSV exports, with portfolio, activity, and coverage queries no spreadsheet has."
+    install: |
+      bin.install "fidelity-pp-cli"
+      bin.install "fidelity-pp-mcp"

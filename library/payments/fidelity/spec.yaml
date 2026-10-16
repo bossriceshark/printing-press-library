@@ -1,0 +1,138 @@
+# Internal spec for a read-only Fidelity ledger.
+# Fidelity Investments publishes no retail brokerage HTTP API.
+# Account data enters through owner-downloaded CSV exports.
+name: fidelity
+description: "Read-only local ledger for Fidelity Investments positions and activity CSV exports. No trades, no money movement, no session cookies."
+version: "0.1.0"
+source: local-sqlite
+cli_description: "Read a Fidelity book from official CSV exports into a local ledger."
+
+auth:
+  type: none
+
+config:
+  format: toml
+  path: "~/.config/fidelity/config.toml"
+
+# learn no-entities escape: symbols and account ids are owner data, not a public alias catalog
+learn:
+  disabled: false
+  stopwords:
+    - fidelity
+    - account
+    - position
+    - holding
+  synonyms:
+    holdings: positions
+    activity: transactions
+
+resources:
+  accounts:
+    description: "Accounts present in imported Fidelity exports"
+    endpoints:
+      list:
+        method: GET
+        path: "/accounts"
+        description: "List accounts imported from positions and history CSV files"
+        example: "  fidelity-pp-cli accounts list --agent"
+        response:
+          type: array
+          item: Account
+  positions:
+    description: "Holdings from the latest positions CSV snapshot"
+    endpoints:
+      list:
+        method: GET
+        path: "/positions"
+        description: "List holdings from the latest imported positions snapshot"
+        example: "  fidelity-pp-cli positions list --agent"
+        params:
+          - name: account
+            flag_name: account
+            type: string
+            required: false
+            description: "Limit to one account number from the export"
+          - name: symbol
+            flag_name: symbol
+            type: string
+            required: false
+            description: "Limit to one ticker or cash symbol"
+        response:
+          type: array
+          item: Position
+  transactions:
+    description: "Activity rows imported from history CSV files"
+    endpoints:
+      list:
+        method: GET
+        path: "/transactions"
+        description: "List imported activity rows"
+        example: "  fidelity-pp-cli transactions list --agent"
+        params:
+          - name: account
+            flag_name: account
+            type: string
+            required: false
+            description: "Limit to one account number"
+          - name: symbol
+            flag_name: symbol
+            type: string
+            required: false
+            description: "Limit to one ticker"
+        response:
+          type: array
+          item: Transaction
+
+types:
+  Account:
+    fields:
+      - name: account_number
+        type: string
+        description: "Account number as printed in the positions export"
+      - name: account_name
+        type: string
+        description: "Account name as printed in the positions export"
+  Position:
+    fields:
+      - name: account_number
+        type: string
+      - name: account_name
+        type: string
+      - name: symbol
+        type: string
+      - name: description
+        type: string
+      - name: quantity
+        type: string
+      - name: last_price
+        type: string
+      - name: current_value
+        type: string
+      - name: cost_basis
+        type: string
+      - name: total_gain_loss
+        type: string
+      - name: percent_of_account
+        type: string
+      - name: type
+        type: string
+  Transaction:
+    fields:
+      - name: account_number
+        type: string
+      - name: run_date
+        type: string
+      - name: action
+        type: string
+      - name: symbol
+        type: string
+      - name: description
+        type: string
+      - name: quantity
+        type: string
+      - name: amount
+        type: string
+      - name: commission
+        type: string
+      - name: fees
+        type: string
