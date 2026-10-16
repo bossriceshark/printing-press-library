@@ -1,0 +1,39 @@
+{
+  "manifest_version": "0.3",
+  "name": "levanta-pp-mcp",
+  "display_name": "Levanta",
+  "version": "1.0.0",
+  "description": "The payout ledger for Levanta creator commerce: unpaid invoices, link earnings, and seller creator ROI from a local store.",
+  "author": {
+    "name": "CLI Printing Press"
+  },
+  "license": "Apache-2.0",
+  "server": {
+    "type": "binary",
+    "entry_point": "bin/levanta-pp-mcp",
+    "mcp_config": {
+      "command": "${__dirname}/bin/levanta-pp-mcp",
+      "args": [],
+      "env": {
+        "LEVANTA_API_KEY": "${user_config.levanta_api_key}"
+      }
+    }
+  },
+  "user_config": {
+    "levanta_api_key": {
+      "type": "string",
+      "title": "LEVANTA_API_KEY",
+      "description": "Sets LEVANTA_API_KEY for the Levanta MCP server.",
+      "sensitive": true,
+      "required": true
+    }
+  },
+  "compatibility": {
+    "claude_desktop": ">=1.0.0",
+    "platforms": [
+      "darwin",
+      "linux",
+      "win32"
+    ]
+  }
+}

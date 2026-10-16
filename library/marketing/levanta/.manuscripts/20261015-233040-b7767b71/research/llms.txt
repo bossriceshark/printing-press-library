@@ -1,0 +1,88 @@
+# Levanta API
+
+- [Introduction](https://api-docs.levanta.io/introduction-v2.md): Welcome to Levanta's v2 API Documentation.
+- [Authentication](https://api-docs.levanta.io/authentication.md): Authenticate your requests to Levanta with an API key
+- [Pagination](https://api-docs.levanta.io/pagination.md): Paginate through Levanta API results
+- [Marketplaces](https://api-docs.levanta.io/marketplaces-v2.md): Levanta supports marketplaces across our API
+- [Levanta MCP for Sellers](https://api-docs.levanta.io/levanta-mcp.md): Connect Claude and Open AI assistants to your Levanta data through the Model Context Protocol.
+- [Help](https://api-docs.levanta.io/help.md): Having trouble? We're here to help
+- [List Conversions](https://api-docs.levanta.io/v2/creator/reports/list-conversions.md): List conversions within a date range [start, end]. Start date must be before end date and the date range must not be greater than 60 days
+- [List Conversion Updates](https://api-docs.levanta.io/v2/creator/reports/list-conversion-updates.md): List conversion updates within a date range [start, end]. Start date must be before end date and the date range must not be greater than 60 days
+- [List Deals](https://api-docs.levanta.io/v2/creator/deals/list-deals.md)
+- [List Products](https://api-docs.levanta.io/v2/creator/products/list-products.md)
+- [Get Product Links Status](https://api-docs.levanta.io/v2/creator/links/get-product-links-status.md)
+- [Create Product Link](https://api-docs.levanta.io/v2/creator/links/create-product-link.md)
+- [List Brands](https://api-docs.levanta.io/v2/creator/brands/list-brands.md): List all brands in Levanta's marketplace
+- [Get Brand by ID](https://api-docs.levanta.io/v2/seller/brands/get-brand-by-id.md)
+- [List Brands](https://api-docs.levanta.io/v2/seller/brands/list-brands.md)
+- [List Creators](https://api-docs.levanta.io/v2/seller/creators/list-creators.md): List creators that you have an active partnership with. Filter by brand IDs.
+- [Get Creator by ID](https://api-docs.levanta.io/v2/seller/creators/get-creator-by-id.md)
+- [List Products](https://api-docs.levanta.io/v2/seller/products/list-products.md): List your products across brands. Filter by brand IDs and product IDs.
+- [List Performance Reports by Date](https://api-docs.levanta.io/v2/seller/reports/list-performance-reports-by-date.md): Aggregated performance metrics across all marketplaces, grouped by date.
+- [List Performance Reports by Product](https://api-docs.levanta.io/v2/seller/reports/list-performance-reports-by-product.md): Aggregated performance metrics across all marketplaces, grouped by product.
+- [List Performance Reports by Brand](https://api-docs.levanta.io/v2/seller/reports/list-performance-reports-by-brand.md): Aggregated performance metrics across all marketplaces, grouped by brand.
+- [List Performance Reports by Creator](https://api-docs.levanta.io/v2/seller/reports/list-performance-reports-by-creator.md): Aggregated performance metrics across all marketplaces, grouped by creator.
+- [List Conversions](https://api-docs.levanta.io/v2/seller/reports/list-conversions.md): Conversion-level sales data for Walmart and Shopify. Date range must not exceed 60 days.
+- [Introduction](https://api-docs.levanta.io/introduction.md): Welcome to Levanta's API Documentation
+- [Authentication](https://api-docs.levanta.io/authentication.md): Authenticate your requests to Levanta with an API key
+- [Pagination](https://api-docs.levanta.io/pagination.md): Paginate through Levanta API results
+- [Marketplaces](https://api-docs.levanta.io/marketplaces.md): Levanta supports many Amazon marketplaces across our API
+- [Levanta MCP for Sellers](https://api-docs.levanta.io/levanta-mcp.md): Connect Claude and Open AI assistants to your Levanta data through the Model Context Protocol.
+- [Help](https://api-docs.levanta.io/help.md): Having trouble? We're here to help
+- [List Brands](https://api-docs.levanta.io/creator/brands/list-brands.md)
+- [List Brand Storefronts](https://api-docs.levanta.io/creator/storefronts/list-brand-storefronts.md): List all storefronts for a given brand
+- [Get Campaign by ID](https://api-docs.levanta.io/creator/cost-per-click-campaigns/get-campaign-by-id.md): Get a Cost-Per-Click campaign by its ID
+- [List CPC Campaigns](https://api-docs.levanta.io/creator/cost-per-click-campaigns/list-cpc-campaigns.md): List all CPC campaigns
+- [List CPC Reports](https://api-docs.levanta.io/creator/cost-per-click-campaigns/list-cpc-reports.md): List all CPC reports
+- [List CPC Links](https://api-docs.levanta.io/creator/cost-per-click-campaigns/list-cpc-links.md): List all CPC links
+- [Join CPC Campaign](https://api-docs.levanta.io/creator/cost-per-click-campaigns/join-cpc-campaign.md): Join a CPC campaign given its ID
+- [Create CPC Link](https://api-docs.levanta.io/creator/cost-per-click-campaigns/create-cpc-link.md): Create a link for a CPC campaign
+- [List Creator Connections Reports](https://api-docs.levanta.io/creator/creator-connections/list-creator-connections-reports.md): List your creator connection reports. Reports are unique per campaign per date per asin.
+- [List Products for a Creator Connections Campaign](https://api-docs.levanta.io/creator/creator-connections/list-products-for-a-creator-connections-campaign.md): List Products, Links, and Loyalty Programs for a creator connections campaign
+- [List Loyalty Programs for a Creator Connections Campaign](https://api-docs.levanta.io/creator/creator-connections/list-loyalty-programs-for-a-creator-connections-campaign.md): List Loyalty Programs for a Creator Connections Campaign.      Lists any loyalty program that was active for the campaign at some point
+- [List Creator Connections Campaigns](https://api-docs.levanta.io/creator/creator-connections/list-creator-connections-campaigns.md): List your creator connections campaigns that you are a member of.
+- [List Deals](https://api-docs.levanta.io/creator/deals/list-deals.md)
+- [List Invoice Items](https://api-docs.levanta.io/creator/invoices/list-invoice-items.md): Get a list of invoice items for a given month and year
+- [List Product Links](https://api-docs.levanta.io/creator/links/list-product-links.md): List all product links. Filter by asins, links, and sources.
+- [Create Product Link](https://api-docs.levanta.io/creator/links/create-product-link.md): Create a product link or retrieve an existing one via a unique asin/country/source_id combination. If source_id is not provided the value "default" will be used. If country is not provided the value "US" will be used.
+- [List Storefront Links](https://api-docs.levanta.io/creator/links/list-storefront-links.md): List all storefront links. Filter by brand_ids, link_ids, source_ids, source_sub_ids, and storefront_ids
+- [Create Default Storefront Link](https://api-docs.levanta.io/creator/links/create-default-storefront-link.md): Create a link for the default storefront of a brand
+- [Get Product Link by ID](https://api-docs.levanta.io/creator/links/get-product-link-by-id.md): Get a product link by its ID
+- [Create Storefront Link by ID](https://api-docs.levanta.io/creator/links/create-storefront-link-by-id.md): Get a storefront link by its ID
+- [List Loyalty Programs](https://api-docs.levanta.io/creator/loyalty-programs/list-loyalty-programs.md): List loyalty programs
+- [List Products for Loyalty Program](https://api-docs.levanta.io/creator/loyalty-programs/list-products-for-loyalty-program.md): List products for a loyalty program
+- [Get Product by ASIN](https://api-docs.levanta.io/creator/products/get-product-by-asin.md): Get a product in amazon.com by asin
+- [Get Product by Marketplace/ASIN](https://api-docs.levanta.io/creator/products/get-product-by-marketplaceasin.md): Get a product by its unique marketplace/asin pair
+- [List Products](https://api-docs.levanta.io/creator/products/list-products.md): List active products in Levanta's product catalog. Sort products by title, commission, or price.                 Filter products by asin, brand, access, and in stock status. Access represents whether or not a creator has an active partnership                 with the brand that the product belongs t…
+- [List Reports](https://api-docs.levanta.io/creator/reports/list-reports.md): List per-product reports at the product/date/link granularity within a date range [start, end].     Filter by asins, links, or source. The difference in time between the start date and end date can be no longer than 1 year.     Dates must be specified in ISO format with no offset (UTC), format: "yyy…
+- [List Clicks](https://api-docs.levanta.io/creator/reports/list-clicks.md): Get click reports at the date/link granularity within a date range [start, end]. Filter by link or source.     The difference in time between the start date and end date can be no longer than 1 year. Dates must be specified in ISO format     with no offset (UTC), format: "yyyy-MM-ddTHH:mm:ss.SSSZ".
+- [Get Brand by ID](https://api-docs.levanta.io/seller/brands/get-brand-by-id.md)
+- [List Brands](https://api-docs.levanta.io/seller/brands/list-brands.md)
+- [List Creators](https://api-docs.levanta.io/seller/creators/list-creators.md): List creators that you have an active partnership with. Filter by brand IDs.
+- [Get Creator by ID](https://api-docs.levanta.io/seller/creators/get-creator-by-id.md)
+- [List Creator Connections Reports](https://api-docs.levanta.io/seller/creator-connections/list-creator-connections-reports.md): List your creator connection reports. Reports are unique per campaign, creator.creatorConnectionsId, date, and asin
+- [List Creator Connections Campaigns](https://api-docs.levanta.io/seller/creator-connections/list-creator-connections-campaigns.md): List Your Creator Connections Campaigns
+- [List Creator Connections Creators](https://api-docs.levanta.io/seller/creator-connections/list-creator-connections-creators.md): List creators that appear in your Creator Connections reports. This includes both claimed (active on Levanta) and unclaimed (not yet on Levanta) creators
+- [Lookup Creator Connections Creators by Associates Tags](https://api-docs.levanta.io/seller/creator-connections/lookup-creator-connections-creators-by-associates-tags.md): Look up Creator Connections creators by their Amazon associates tags (e.g. levanta-20). Returns Levanta creator team IDs and metadata for the matched associates tags.
+- [List Products](https://api-docs.levanta.io/seller/products/list-products.md): List your products. Filter by brand IDs and ASINs.
+- [List Reports](https://api-docs.levanta.io/seller/reports/list-reports.md): List per-product reports at the product/date/link granularity with a date range [start, end].                 The difference in time between start and end date must be less than 1 year.                 Dates must be specified in ISO format with no offset (UTC), format: "yyyy-MM-ddTHH:mm:ss.SSSZ".
+- [List Click Reports](https://api-docs.levanta.io/seller/reports/list-click-reports.md): List click reports at the date/link granularity with a date range [start, end].                 The difference in time between start and end date must be less than 1 year.                 Dates must be specified in ISO format with no offset (UTC), format: "yyyy-MM-ddTHH:mm:ss.SSSZ".
+- [List BRB Reports](https://api-docs.levanta.io/seller/reports/list-brb-reports.md): List brand referral bonus estimates for a given date range [start, end], bucketed by date.                 The difference in time between start and end date must be less than or equal to 90 days                 Dates must be specified in ISO format with no offset (UTC), format: "yyyy-MM-ddTHH:mm:ss.…
+
+## OpenAPI Specs
+
+- [openapi](https://app.levanta.io/api/creator/v1/openapi.json)
+- [openapi](https://app.levanta.io/api/creator/v2/openapi.json)
+- [openapi](https://app.levanta.io/api/seller/v1/openapi.json)
+- [openapi](https://app.levanta.io/api/seller/v2/openapi.json)
+- [package](/package.json)
+
+## Optional
+
+- [Community](https://levantagroup.slack.com)
+- [Blog](https://levanta.io/category/blog/)
+- [Community](https://levantagroup.slack.com)
+- [Blog](https://levanta.io/category/blog/)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

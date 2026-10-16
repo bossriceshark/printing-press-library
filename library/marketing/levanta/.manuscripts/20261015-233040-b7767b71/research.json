@@ -1,0 +1,210 @@
+{
+  "api_name": "levanta",
+  "novelty_score": 8,
+  "alternatives": [
+    {
+      "name": "affiliate-networks-mcp",
+      "url": "https://github.com/bobberrisford/affiliatemcp",
+      "language": "TypeScript",
+      "install_method": "",
+      "stars": 0,
+      "last_updated": "",
+      "command_count": 7,
+      "has_json_output": false,
+      "has_auth_support": false
+    }
+  ],
+  "gaps": [],
+  "patterns": [],
+  "recommendation": "proceed",
+  "researched_at": "2026-10-15T23:40:00Z",
+  "novel_features": [
+    {
+      "name": "Unpaid payouts",
+      "command": "unpaid",
+      "description": "List synced invoice items that are still pending or late.",
+      "rationale": "The invoice endpoint requires a year and has no status filter, so the open payout ledger only exists after the pages are stored locally.",
+      "example": "levanta-pp-cli unpaid --agent --select status,brand,commission,year,month",
+      "why_it_matters": "Use this when the question is which Levanta payouts are still unpaid, instead of paging every invoice year.",
+      "group": "Payout ledger"
+    },
+    {
+      "name": "Earnings reconcile",
+      "command": "earnings reconcile",
+      "description": "Flag invoice items whose commission or paid status disagrees with stored report rows.",
+      "rationale": "Invoice totals and daily report rows are separate collections; neither endpoint returns the mismatch.",
+      "example": "levanta-pp-cli earnings reconcile --agent --select brand,status,invoice_commission,report_commission",
+      "why_it_matters": "Use this when a payout email says paid but the report rows for that brand-month are still moving.",
+      "group": "Payout ledger"
+    },
+    {
+      "name": "Links that earned",
+      "command": "earned",
+      "description": "Roll creator report rows up to one line per link that earned commission.",
+      "rationale": "Daily report rows do not answer which links earned in a window unless they are grouped locally by link.",
+      "example": "levanta-pp-cli earned --agent --select url,asin,source,commission,clicks",
+      "why_it_matters": "Use this when the question is which affiliate links earned commission, not which daily rows exist.",
+      "group": "Link earnings"
+    },
+    {
+      "name": "Payout gap",
+      "command": "payout gap",
+      "description": "Show brand-months where reports earned commission and no invoice item exists.",
+      "rationale": "Report rows and invoice items share a brand, year, month, and marketplace key that no single endpoint joins.",
+      "example": "levanta-pp-cli payout gap --agent --select brand,year,month,marketplace,commission",
+      "why_it_matters": "Use this when earnings are already on the reports and the invoice ledger has no matching line.",
+      "group": "Payout ledger"
+    },
+    {
+      "name": "Links that stopped earning",
+      "command": "stalled",
+      "description": "List active links that earned commission in the previous window and earn nothing now.",
+      "rationale": "No endpoint compares two report windows by link, and link filters require ids you already know.",
+      "example": "levanta-pp-cli stalled --agent --select url,asin,source,prior_commission",
+      "why_it_matters": "Use this when a link used to earn and the current window is quiet.",
+      "group": "Link earnings"
+    },
+    {
+      "name": "Creator ROI",
+      "command": "creator roi",
+      "description": "Rank seller creators by commission-to-sales and by the change versus the previous window.",
+      "rationale": "Seller performance-by-creator is one window; the weekly question is the delta across stored seller report rows.",
+      "example": "levanta-pp-cli creator roi --agent --select creator,commission,sales,roi,delta",
+      "why_it_matters": "Use this on the seller account when the question is which creators' return moved, not a single performance page.",
+      "group": "Seller program"
+    }
+  ],
+  "novel_features_built": [
+    {
+      "name": "Unpaid payouts",
+      "command": "unpaid",
+      "description": "List synced invoice items that are still pending or late.",
+      "rationale": "The invoice endpoint requires a year and has no status filter, so the open payout ledger only exists after the pages are stored locally.",
+      "example": "levanta-pp-cli unpaid --agent --select status,brand,commission,year,month",
+      "why_it_matters": "Use this when the question is which Levanta payouts are still unpaid, instead of paging every invoice year.",
+      "group": "Payout ledger"
+    },
+    {
+      "name": "Earnings reconcile",
+      "command": "earnings reconcile",
+      "description": "Flag invoice items whose commission or paid status disagrees with stored report rows.",
+      "rationale": "Invoice totals and daily report rows are separate collections; neither endpoint returns the mismatch.",
+      "example": "levanta-pp-cli earnings reconcile --agent --select brand,status,invoice_commission,report_commission",
+      "why_it_matters": "Use this when a payout email says paid but the report rows for that brand-month are still moving.",
+      "group": "Payout ledger"
+    },
+    {
+      "name": "Links that earned",
+      "command": "earned",
+      "description": "Roll creator report rows up to one line per link that earned commission.",
+      "rationale": "Daily report rows do not answer which links earned in a window unless they are grouped locally by link.",
+      "example": "levanta-pp-cli earned --agent --select url,asin,source,commission,clicks",
+      "why_it_matters": "Use this when the question is which affiliate links earned commission, not which daily rows exist.",
+      "group": "Link earnings"
+    },
+    {
+      "name": "Payout gap",
+      "command": "payout gap",
+      "description": "Show brand-months where reports earned commission and no invoice item exists.",
+      "rationale": "Report rows and invoice items share a brand, year, month, and marketplace key that no single endpoint joins.",
+      "example": "levanta-pp-cli payout gap --agent --select brand,year,month,marketplace,commission",
+      "why_it_matters": "Use this when earnings are already on the reports and the invoice ledger has no matching line.",
+      "group": "Payout ledger"
+    },
+    {
+      "name": "Links that stopped earning",
+      "command": "stalled",
+      "description": "List active links that earned commission in the previous window and earn nothing now.",
+      "rationale": "No endpoint compares two report windows by link, and link filters require ids you already know.",
+      "example": "levanta-pp-cli stalled --agent --select url,asin,source,prior_commission",
+      "why_it_matters": "Use this when a link used to earn and the current window is quiet.",
+      "group": "Link earnings"
+    },
+    {
+      "name": "Creator ROI",
+      "command": "creator roi",
+      "description": "Rank seller creators by commission-to-sales and by the change versus the previous window.",
+      "rationale": "Seller performance-by-creator is one window; the weekly question is the delta across stored seller report rows.",
+      "example": "levanta-pp-cli creator roi --agent --select creator,commission,sales,roi,delta",
+      "why_it_matters": "Use this on the seller account when the question is which creators' return moved, not a single performance page.",
+      "group": "Seller program"
+    }
+  ],
+  "auth": {
+    "canonical_env_var": "LEVANTA_API_KEY"
+  },
+  "narrative": {
+    "display_name": "Levanta",
+    "headline": "The payout ledger for Levanta creator commerce: unpaid invoices, link earnings, and seller creator ROI from a local store.",
+    "value_prop": "Wraps the official Levanta creator and seller APIs, then answers the questions that today show up as email. unpaid lists pending and late invoice items. earned and stalled roll link commission across windows. earnings reconcile and payout gap compare invoices with report rows. creator roi ranks a seller's creators across two windows.",
+    "auth_narrative": "Create a key under Settings \u003e API on app.levanta.io and export it as LEVANTA_API_KEY. The CLI sends Authorization: Bearer \u003capi_key\u003e. A creator key reads invoices, links, and creator reports. A seller key reads brands, creators, and seller reports. The two keys are not interchangeable. Do not paste the key into chat or commit it.",
+    "quickstart": [
+      {
+        "command": "levanta-pp-cli doctor --dry-run",
+        "comment": "Confirm the binary and auth wiring before any network call."
+      },
+      {
+        "command": "levanta-pp-cli unpaid --agent",
+        "comment": "Read pending and late invoice items already stored locally."
+      },
+      {
+        "command": "levanta-pp-cli earned --agent",
+        "comment": "See which stored links earned commission."
+      },
+      {
+        "command": "levanta-pp-cli creator roi --agent",
+        "comment": "Rank stored seller creators by commission relative to sales."
+      }
+    ],
+    "troubleshoots": [
+      {
+        "symptom": "HTTP 401 saying an Authorization bearer token is required",
+        "fix": "Export LEVANTA_API_KEY with the bearer token from Settings \u003e API. Use a creator key for invoice and link commands and a seller key for creator roster and seller reports."
+      },
+      {
+        "symptom": "A report command rejects the date window",
+        "fix": "Pass start and end as UTC timestamps YYYY-MM-DDTHH:mm:ss.SSSZ and keep creator or seller v1 report spans at or under one year. Creator v2 and seller v2 conversion spans must stay at or under 60 days."
+      },
+      {
+        "symptom": "Invoice month looks wrong",
+        "fix": "The invoice month query is 0 through 11, not 1 through 12. Omit month to list the whole year."
+      }
+    ],
+    "when_to_use": "Use this CLI when an agent needs Levanta payout status, affiliate or creator earnings, or tracking links without reading mail. Creator commands cover invoice items, product links, and creator reports. Seller commands cover the brand roster and seller commission reports. Local commands unpaid, earned, stalled, payout gap, earnings reconcile, and creator roi answer the weekly ledger questions after a sync.",
+    "anti_triggers": [
+      "Do not use this CLI to change bank details, send a payout, or edit a Levanta team.",
+      "Do not use this CLI as a Gmail client. It reads the Levanta API, not the mailbox.",
+      "Do not use a seller key to query creator invoice or link commands, or a creator key to query seller creator roster commands."
+    ],
+    "recipes": [
+      {
+        "title": "See unpaid payouts",
+        "command": "levanta-pp-cli unpaid --agent --select status,brand,commission,year,month",
+        "explanation": "Returns pending and late invoice items without paging every invoice year by hand."
+      },
+      {
+        "title": "See which links earned",
+        "command": "levanta-pp-cli earned --agent --select url,asin,source,commission,clicks",
+        "explanation": "Rolls stored daily report rows up to one line per earning link."
+      },
+      {
+        "title": "Reconcile a paid invoice against reports",
+        "command": "levanta-pp-cli earnings reconcile --agent --select brand,status,invoice_commission,report_commission",
+        "explanation": "Flags invoice totals that disagree with stored report commission."
+      },
+      {
+        "title": "Find links that stopped earning",
+        "command": "levanta-pp-cli stalled --agent --select url,asin,source,prior_commission",
+        "explanation": "Compares the current window with the previous one for active links that went quiet."
+      }
+    ],
+    "trigger_phrases": [
+      "which Levanta payouts are still pending",
+      "which affiliate links earned commission",
+      "Levanta creator earnings",
+      "reconcile Levanta invoices",
+      "use levanta",
+      "run levanta"
+    ]
+  }
+}

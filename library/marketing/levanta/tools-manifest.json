@@ -1,0 +1,2380 @@
+{
+  "api_name": "levanta",
+  "base_url": "https://app.levanta.io",
+  "description": "The payout ledger for Levanta creator commerce: unpaid invoices, link earnings, and seller creator ROI from a local store.",
+  "mcp_ready": "full",
+  "http_transport": "standard",
+  "mcp": {
+    "endpoint_tools": "hidden",
+    "orchestration": "code"
+  },
+  "auth": {
+    "type": "bearer_token",
+    "header": "Authorization",
+    "env_vars": [
+      "LEVANTA_API_KEY"
+    ],
+    "env_var_specs": [
+      {
+        "name": "LEVANTA_API_KEY",
+        "kind": "per_call",
+        "required": true,
+        "sensitive": true,
+        "inferred": true
+      }
+    ]
+  },
+  "required_headers": [],
+  "tools": [
+    {
+      "name": "brands_list",
+      "description": "List Brands. Optional: limit (default: 25), cursor, marketplace (default: amazon.com) (plus 1 more). Returns array of BrandsListItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/brands",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents an Amazon marketplace."
+        },
+        {
+          "name": "access",
+          "type": "string",
+          "location": "query",
+          "description": "Whether to return only brands you have access to"
+        }
+      ]
+    },
+    {
+      "name": "brands_list-storefronts",
+      "description": "List all storefronts for a given brand. Required: brand_id. Optional: limit (default: 25), cursor. Returns array of BrandsListStorefrontsItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/brands/storefronts",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "brand_id",
+          "type": "string",
+          "location": "query",
+          "description": "The ID of the brand",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "cpc_get-campaign",
+      "description": "Get a Cost-Per-Click campaign by its ID. Required: campaign_id. Returns the CpcGetCampaignResponse.",
+      "method": "GET",
+      "path": "/api/creator/v1/cpc/{campaign_id}",
+      "params": [
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "location": "path",
+          "description": "The ID of the campaign to get",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "cpc_list-campaigns",
+      "description": "List all CPC campaigns. Optional: limit (default: 25), cursor, campaign_ids (plus 3 more). Returns array of CpcListCampaignsItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/cpc",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "campaign_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents an Amazon marketplace."
+        },
+        {
+          "name": "active",
+          "type": "string",
+          "location": "query",
+          "description": "Whether to return all campaigns or just campaigns that are currently running, not canceled, have not reached their budget, and that you have not been removed from."
+        },
+        {
+          "name": "access",
+          "type": "string",
+          "location": "query",
+          "description": "Whether to return all campaigns or just campaigns for brands that you are partnered with"
+        }
+      ]
+    },
+    {
+      "name": "cpc_join_cpc-campaign",
+      "description": "Join a CPC campaign given its ID. Required: campaign_id. Returns the new JoinCpcCampaignResponse.",
+      "method": "POST",
+      "path": "/api/creator/v1/cpc/{campaign_id}/join",
+      "params": [
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "location": "path",
+          "description": "The ID of the campaign to join",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "creator-brands_creator-list-v2",
+      "description": "List all brands in Levanta's marketplace. Required: marketplace. Optional: limit (default: 25), cursor, access (plus 1 more). Returns array of BrandsCreatorListV2Item.",
+      "method": "GET",
+      "path": "/api/creator/v2/brands",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents a Levanta marketplace (ex: amazon.",
+          "required": true
+        },
+        {
+          "name": "access",
+          "type": "string",
+          "location": "query",
+          "description": "Access"
+        },
+        {
+          "name": "brandIds",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        }
+      ]
+    },
+    {
+      "name": "creator-connections_creator-list-campaigns",
+      "description": "List your creator connections campaigns that you are a member of. Optional: limit (default: 25), cursor, starts_after (plus 3 more). Returns array of CreatorConnectionsCreatorListCampaignsItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/creator-connections/campaigns",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "starts_after",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ"
+        },
+        {
+          "name": "ends_before",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Marketplace"
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        }
+      ]
+    },
+    {
+      "name": "creator-connections_creator-list-reports",
+      "description": "List your creator connection reports. Reports are unique per campaign per date per asin. Required: start, end. Optional: limit (default: 100), cursor, brand_ids (plus 3 more). Returns array of CreatorConnectionsCreatorListReportsItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/creator-connections/reports",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "start",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "end",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "campaign_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "asins",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of ASINs representing an array."
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Marketplace"
+        }
+      ]
+    },
+    {
+      "name": "creator-connections_get",
+      "description": "List Loyalty Programs for a Creator Connections Campaign. Lists any loyalty program that was active for the campaign at some point. Required: campaign_id. Optional: limit (default: 25), cursor. Returns array of CreatorConnectionsGetItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/creator-connections/campaigns/{campaign_id}/loyalty-programs",
+      "params": [
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "location": "path",
+          "description": "Campaign id",
+          "required": true
+        },
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        }
+      ]
+    },
+    {
+      "name": "creator-connections_get-creatorconnections",
+      "description": "List Products, Links, and Loyalty Programs for a creator connections campaign. Required: campaign_id. Optional: limit (default: 25), cursor. Returns array of CreatorConnectionsGetCreatorconnectionsItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/creator-connections/campaigns/{campaign_id}/products",
+      "params": [
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "location": "path",
+          "description": "Campaign id",
+          "required": true
+        },
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        }
+      ]
+    },
+    {
+      "name": "creator-deals_creator-list-v2",
+      "description": "List Deals. Required: marketplace. Optional: brand_ids, product_ids, starts_before (plus 5 more). Returns array of DealsCreatorListV2Item.",
+      "method": "GET",
+      "path": "/api/creator/v2/deals",
+      "params": [
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents a Levanta marketplace (ex: amazon.",
+          "required": true
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]"
+        },
+        {
+          "name": "product_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Filter deals by the associated products' primary IDs. Example: 1234567890,1234567891"
+        },
+        {
+          "name": "starts_before",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ"
+        },
+        {
+          "name": "starts_after",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ"
+        },
+        {
+          "name": "ends_before",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ"
+        },
+        {
+          "name": "ends_after",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ"
+        },
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        }
+      ]
+    },
+    {
+      "name": "creator-links_creator-create-product-v2",
+      "description": "Create Product Link. Required: product. Optional: sharedid, subid1, subid2. Returns the new LinksCreatorCreateProductV2Response.",
+      "method": "POST",
+      "path": "/api/creator/v2/links",
+      "params": [
+        {
+          "name": "product-marketplace",
+          "wire_name": "product.marketplace",
+          "type": "string",
+          "location": "body",
+          "description": "Represents a Levanta marketplace (ex: amazon.",
+          "required": true
+        },
+        {
+          "name": "product-primary-id",
+          "wire_name": "product.primary_id",
+          "type": "string",
+          "location": "body",
+          "description": "Primary id",
+          "required": true
+        },
+        {
+          "name": "sharedid",
+          "type": "string",
+          "location": "body",
+          "description": "Will be added to the link parameters as `sharedid`. NOTE: only supported when product.marketplace is shopify.com, otherwise an 422 error will be thrown."
+        },
+        {
+          "name": "subid1",
+          "type": "string",
+          "location": "body",
+          "description": "An ID that identifies where the created link will be used. Allowed characters: [a-zA-Z0-9-_@./ ]"
+        },
+        {
+          "name": "subid2",
+          "type": "string",
+          "location": "body",
+          "description": "An ID that identifies where the created link will be used. Allowed characters: [a-zA-Z0-9-_@./ ]"
+        }
+      ]
+    },
+    {
+      "name": "creator-links_creator-get-status-v2",
+      "description": "Get Product Links Status. Required: link_ids. Returns array of LinksCreatorGetStatusV2Item.",
+      "method": "GET",
+      "path": "/api/creator/v2/links/status",
+      "params": [
+        {
+          "name": "link_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "creator-products_creator-list-v2",
+      "description": "List Products. Required: marketplace. Optional: access, product_ids, brand_ids (plus 3 more). Returns array of ProductsCreatorListV2Item.",
+      "method": "GET",
+      "path": "/api/creator/v2/products",
+      "params": [
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents a Levanta marketplace (ex: amazon.",
+          "required": true
+        },
+        {
+          "name": "access",
+          "type": "string",
+          "location": "query",
+          "description": "Whether or not to only return products for brands that you have an active partnership with"
+        },
+        {
+          "name": "product_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Filter products by their primary ID"
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Filter products by the brand ID"
+        },
+        {
+          "name": "group_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Filter products by group ID. Products that share a group ID are variations of the same item (e.g. size, color) in a marketplace"
+        },
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        }
+      ]
+    },
+    {
+      "name": "creator-reports_creator-list-conversions-updates",
+      "description": "List conversion updates within a date range [start, end]. Start date must be before end date and the date range must not be greater than 60 days. Required: marketplace. Optional: orderId, subid1, subid2 (plus 6 more). Returns array of ReportsCreatorListConversionsUpdatesItem.",
+      "method": "GET",
+      "path": "/api/creator/v2/reports/conversions/updates",
+      "params": [
+        {
+          "name": "orderId",
+          "type": "string",
+          "location": "query",
+          "description": "Order id"
+        },
+        {
+          "name": "subid1",
+          "type": "string",
+          "location": "query",
+          "description": "Subid1"
+        },
+        {
+          "name": "subid2",
+          "type": "string",
+          "location": "query",
+          "description": "Subid2"
+        },
+        {
+          "name": "clickid",
+          "type": "string",
+          "location": "query",
+          "description": "Clickid"
+        },
+        {
+          "name": "start",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ"
+        },
+        {
+          "name": "end",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ"
+        },
+        {
+          "name": "conversionId",
+          "type": "string",
+          "location": "query",
+          "description": "Conversion id"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents a Levanta marketplace with conversion level data (ex: walmart.com, shopify.com, wayfair.com). This union is subject to expand as new marketplaces are added.",
+          "required": true
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        }
+      ]
+    },
+    {
+      "name": "creator-reports_creator-list-conversions-v2",
+      "description": "List conversions within a date range [start, end]. Start date must be before end date and the date range must not be greater than 60 days. Required: marketplace. Optional: orderId, subid1, subid2 (plus 5 more). Returns array of ReportsCreatorListConversionsV2Item.",
+      "method": "GET",
+      "path": "/api/creator/v2/reports/conversions",
+      "params": [
+        {
+          "name": "orderId",
+          "type": "string",
+          "location": "query",
+          "description": "Order id"
+        },
+        {
+          "name": "subid1",
+          "type": "string",
+          "location": "query",
+          "description": "Subid1"
+        },
+        {
+          "name": "subid2",
+          "type": "string",
+          "location": "query",
+          "description": "Subid2"
+        },
+        {
+          "name": "clickid",
+          "type": "string",
+          "location": "query",
+          "description": "Clickid"
+        },
+        {
+          "name": "start",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ"
+        },
+        {
+          "name": "end",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents a Levanta marketplace with conversion level data (ex: walmart.com, shopify.com, wayfair.com). This union is subject to expand as new marketplaces are added.",
+          "required": true
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        }
+      ]
+    },
+    {
+      "name": "creators_get",
+      "description": "Get Creator by ID. Required: id. Returns array of string.",
+      "method": "GET",
+      "path": "/api/seller/v1/creators/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "Id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "creators_list",
+      "description": "List creators that you have an active partnership with. Filter by brand IDs. Optional: limit (default: 25), cursor, brand_ids. Returns array of CreatorsListItem.",
+      "method": "GET",
+      "path": "/api/seller/v1/creators/active",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]"
+        }
+      ]
+    },
+    {
+      "name": "deals_list",
+      "description": "List Deals. Optional: limit (default: 100), cursor, created_after (plus 4 more). Returns array of DealsListItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/deals",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "created_after",
+          "wire_name": "after",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ"
+        },
+        {
+          "name": "before",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ"
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]"
+        },
+        {
+          "name": "asins",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of ASINs representing an array."
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents an Amazon marketplace."
+        }
+      ]
+    },
+    {
+      "name": "invoices_list-items",
+      "description": "Get a list of invoice items for a given month and year. Required: year. Optional: limit (default: 25), cursor, brand_ids (plus 2 more). Returns array of InvoicesListItemsItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/invoices/items",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]"
+        },
+        {
+          "name": "month",
+          "type": "float",
+          "location": "query",
+          "description": "Month"
+        },
+        {
+          "name": "year",
+          "type": "float",
+          "location": "query",
+          "description": "Year",
+          "required": true
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents an Amazon marketplace."
+        }
+      ]
+    },
+    {
+      "name": "links_create-cpc-campaign",
+      "description": "Create a link for a CPC campaign. Required: campaign_id. Optional: auto_join (default: true), source_id, source_name (plus 1 more). Returns the new LinksCreateCpcCampaignResponse.",
+      "method": "POST",
+      "path": "/api/creator/v1/links/cpc/{campaign_id}",
+      "params": [
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "location": "path",
+          "description": "Campaign id",
+          "required": true
+        },
+        {
+          "name": "auto_join",
+          "type": "string",
+          "location": "body",
+          "description": "Whether or not to join the campaign if not yet joined"
+        },
+        {
+          "name": "source_id",
+          "type": "string",
+          "location": "body",
+          "description": "An ID that identifies where the created link will be used. Allowed characters: [a-zA-Z0-9-_@./ ]"
+        },
+        {
+          "name": "source_name",
+          "type": "string",
+          "location": "body",
+          "description": "Display name for the source within Levanta"
+        },
+        {
+          "name": "source_sub_id",
+          "type": "string",
+          "location": "body",
+          "description": "An ID that identifies where the created link will be used. Allowed characters: [a-zA-Z0-9-_@./ ]"
+        }
+      ]
+    },
+    {
+      "name": "links_create-default-storefront",
+      "description": "Create a link for the default storefront of a brand. Required: brand_id. Optional: source_id, source_name, source_sub_id. Returns the new LinksCreateDefaultStorefrontResponse.",
+      "method": "POST",
+      "path": "/api/creator/v1/links/storefronts",
+      "params": [
+        {
+          "name": "brand_id",
+          "type": "string",
+          "location": "body",
+          "description": "Brand id",
+          "required": true
+        },
+        {
+          "name": "source_id",
+          "type": "string",
+          "location": "body",
+          "description": "An ID that identifies where the created link will be used. Allowed characters: [a-zA-Z0-9-_@./ ]"
+        },
+        {
+          "name": "source_name",
+          "type": "string",
+          "location": "body",
+          "description": "Display name for the source within Levanta"
+        },
+        {
+          "name": "source_sub_id",
+          "type": "string",
+          "location": "body",
+          "description": "An ID that identifies where the created link will be used. Allowed characters: [a-zA-Z0-9-_@./ ]"
+        }
+      ]
+    },
+    {
+      "name": "links_create-product",
+      "description": "Create a product link or retrieve an existing one via a unique asin/country/source_id combination. If source_id is not provided the value 'default' will be used. If country is not provided the value 'US' will be used. Required: asin. Optional: marketplace (default: amazon.com), source_id, source_name (plus 1 more). Returns the new LinksCreateProductResponse.",
+      "method": "POST",
+      "path": "/api/creator/v1/links",
+      "params": [
+        {
+          "name": "asin",
+          "type": "string",
+          "location": "body",
+          "description": "Amazon Standard Identifier (ASIN) for an Amazon product. Example: B0EXAMPLE1",
+          "required": true
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "body",
+          "description": "The marketplace the product is associated with"
+        },
+        {
+          "name": "source_id",
+          "type": "string",
+          "location": "body",
+          "description": "An ID that identifies where the created link will be used. Allowed characters: [a-zA-Z0-9-_@./ ]"
+        },
+        {
+          "name": "source_name",
+          "type": "string",
+          "location": "body",
+          "description": "Display name for the source within Levanta"
+        },
+        {
+          "name": "source_sub_id",
+          "type": "string",
+          "location": "body",
+          "description": "An ID that identifies where the created link will be used. Allowed characters: [a-zA-Z0-9-_@./ ]"
+        }
+      ]
+    },
+    {
+      "name": "links_create-storefront-by-id",
+      "description": "Get a storefront link by its ID. Required: storefront_id. Optional: source_id, source_name, source_sub_id. Returns the new LinksCreateStorefrontByIdResponse.",
+      "method": "POST",
+      "path": "/api/creator/v1/links/storefronts/{storefront_id}",
+      "params": [
+        {
+          "name": "storefront_id",
+          "type": "string",
+          "location": "path",
+          "description": "Storefront id",
+          "required": true
+        },
+        {
+          "name": "source_id",
+          "type": "string",
+          "location": "body",
+          "description": "An ID that identifies where the created link will be used. Allowed characters: [a-zA-Z0-9-_@./ ]"
+        },
+        {
+          "name": "source_name",
+          "type": "string",
+          "location": "body",
+          "description": "Display name for the source within Levanta"
+        },
+        {
+          "name": "source_sub_id",
+          "type": "string",
+          "location": "body",
+          "description": "An ID that identifies where the created link will be used. Allowed characters: [a-zA-Z0-9-_@./ ]"
+        }
+      ]
+    },
+    {
+      "name": "links_get-product",
+      "description": "Get a product link by its ID. Required: link_id. Returns the LinksGetProductResponse.",
+      "method": "GET",
+      "path": "/api/creator/v1/links/{link_id}",
+      "params": [
+        {
+          "name": "link_id",
+          "type": "string",
+          "location": "path",
+          "description": "Link id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "links_list-cpc-campaign",
+      "description": "List all CPC links. Optional: limit (default: 100), cursor, marketplace (default: amazon.com) (plus 5 more). Returns array of LinksListCpcCampaignItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/links/cpc",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents an Amazon marketplace."
+        },
+        {
+          "name": "link_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]"
+        },
+        {
+          "name": "campaign_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "source_ids",
+          "type": "string",
+          "location": "query",
+          "description": "An array of source IDs to filter by."
+        },
+        {
+          "name": "source_sub_ids",
+          "type": "string",
+          "location": "query",
+          "description": "An array of source sub IDs to filter by."
+        },
+        {
+          "name": "active",
+          "type": "string",
+          "location": "query",
+          "description": "Whether or not to return active links or inactive links."
+        }
+      ]
+    },
+    {
+      "name": "links_list-product",
+      "description": "List all product links. Filter by asins, links, and sources. Optional: limit (default: 100), cursor, marketplace (default: amazon.com) (plus 5 more). Returns array of LinksListProductItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/links",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents an Amazon marketplace."
+        },
+        {
+          "name": "link_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]"
+        },
+        {
+          "name": "asins",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of ASINs representing an array."
+        },
+        {
+          "name": "source_ids",
+          "type": "string",
+          "location": "query",
+          "description": "An array of source IDs to filter by."
+        },
+        {
+          "name": "source_sub_ids",
+          "type": "string",
+          "location": "query",
+          "description": "An array of source sub IDs to filter by."
+        },
+        {
+          "name": "active",
+          "type": "string",
+          "location": "query",
+          "description": "Whether or not to return active links or inactive links."
+        }
+      ]
+    },
+    {
+      "name": "links_list-storefront",
+      "description": "List all storefront links. Filter by brand_ids, link_ids, source_ids, source_sub_ids, and storefront_ids. Optional: limit (default: 100), cursor, marketplace (default: amazon.com) (plus 6 more). Returns array of LinksListStorefrontItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/links/storefronts",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents an Amazon marketplace."
+        },
+        {
+          "name": "storefront_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]"
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]"
+        },
+        {
+          "name": "link_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]"
+        },
+        {
+          "name": "source_ids",
+          "type": "string",
+          "location": "query",
+          "description": "An array of source IDs to filter by."
+        },
+        {
+          "name": "source_sub_ids",
+          "type": "string",
+          "location": "query",
+          "description": "An array of source sub IDs to filter by."
+        },
+        {
+          "name": "active",
+          "type": "string",
+          "location": "query",
+          "description": "Whether or not to return active links or inactive links."
+        }
+      ]
+    },
+    {
+      "name": "loyalty-programs_list",
+      "description": "List loyalty programs. Optional: limit (default: 25), cursor, status (default: active) (plus 3 more). Returns array of LoyaltyProgramsListItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/loyalty-programs",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "location": "query",
+          "description": "Status"
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "program_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Marketplace"
+        }
+      ]
+    },
+    {
+      "name": "loyalty-programs_products_list-for-loyalty-program",
+      "description": "List products for a loyalty program. Required: program_id. Optional: limit (default: 25), cursor. Returns array of ProductsListForLoyaltyProgramItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/loyalty-programs/{program_id}/products",
+      "params": [
+        {
+          "name": "program_id",
+          "type": "string",
+          "location": "path",
+          "description": "Program id",
+          "required": true
+        },
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        }
+      ]
+    },
+    {
+      "name": "private_creator-find-match-v2",
+      "description": "Find a match for a product from any marketplace to Walmart. Required: product. Optional: marketplace (default: walmart.com). Returns array of PrivateCreatorFindMatchV2Item.",
+      "method": "POST",
+      "path": "/api/creator/v2/private/find-match",
+      "params": [
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "body",
+          "description": "Marketplace"
+        },
+        {
+          "name": "product-description",
+          "wire_name": "product.description",
+          "type": "string",
+          "location": "body",
+          "description": "Description"
+        },
+        {
+          "name": "product-title",
+          "wire_name": "product.title",
+          "type": "string",
+          "location": "body",
+          "description": "Title",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "products_get-by-asin",
+      "description": "Get a product in amazon.com by asin. Required: asin. Returns array of string.",
+      "method": "GET",
+      "path": "/api/creator/v1/products/{asin}",
+      "params": [
+        {
+          "name": "asin",
+          "type": "string",
+          "location": "path",
+          "description": "Amazon Standard Identifier (ASIN) for an Amazon product. Example: B0EXAMPLE1",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "products_get-by-asin-marketplace-domain",
+      "description": "Get a product by its unique marketplace/asin pair. Required: asin, marketplace (default: amazon.com). Returns array of string.",
+      "method": "GET",
+      "path": "/api/creator/v1/products/{marketplace}/{asin}",
+      "params": [
+        {
+          "name": "asin",
+          "type": "string",
+          "location": "path",
+          "description": "Amazon Standard Identifier (ASIN) for an Amazon product. Example: B0EXAMPLE1",
+          "required": true
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "path",
+          "description": "Marketplace",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "products_list",
+      "description": "List active products in Levanta's product catalog. Sort products by title, commission, or price. Filter products by asin, brand, access, and in stock status. Access represents whether or not a creator has an active partnership with the brand that the product belongs to. Optional: limit (default: 100), cursor, asins (plus 4 more). Returns array of ProductsListItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/products",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "asins",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of ASINs representing an array."
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]"
+        },
+        {
+          "name": "in_stock",
+          "type": "string",
+          "location": "query",
+          "description": "In stock"
+        },
+        {
+          "name": "access",
+          "type": "string",
+          "location": "query",
+          "description": "Whether or not to only return products for brands that you have an active partnership with"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents an Amazon marketplace."
+        }
+      ]
+    },
+    {
+      "name": "reports_list",
+      "description": "List per-product reports at the product/date/link granularity within a date range [start, end]. Filter by asins, links, or source. The difference in time between the start date and end date can be no longer than 1 year. Dates must be specified in ISO format with no offset (UTC), format: 'yyyy-MM-ddTHH:mm:ss.SSSZ'. Required: start, end. Optional: limit (default: 100), cursor, asins (plus 4 more). Returns array of ReportsListItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/reports",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "start",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "end",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "asins",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of ASINs representing an array."
+        },
+        {
+          "name": "link_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]"
+        },
+        {
+          "name": "source_id",
+          "type": "string",
+          "location": "query",
+          "description": "An ID that identifies where the created link will be used. Allowed characters: [a-zA-Z0-9-_@./ ]"
+        },
+        {
+          "name": "source_sub_id",
+          "type": "string",
+          "location": "query",
+          "description": "An ID that identifies where the created link will be used. Allowed characters: [a-zA-Z0-9-_@./ ]"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents an Amazon marketplace."
+        }
+      ]
+    },
+    {
+      "name": "reports_list-click",
+      "description": "Get click reports at the date/link granularity within a date range [start, end]. Filter by link or source. The difference in time between the start date and end date can be no longer than 1 year. Dates must be specified in ISO format with no offset (UTC), format: 'yyyy-MM-ddTHH:mm:ss.SSSZ'. Required: start, end. Optional: limit (default: 100), cursor, link_ids (plus 3 more). Returns array of ReportsListClickItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/reports/clicks",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "start",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "end",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "link_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]"
+        },
+        {
+          "name": "source_id",
+          "type": "string",
+          "location": "query",
+          "description": "An ID that identifies where the created link will be used. Allowed characters: [a-zA-Z0-9-_@./ ]"
+        },
+        {
+          "name": "source_sub_id",
+          "type": "string",
+          "location": "query",
+          "description": "An ID that identifies where the created link will be used. Allowed characters: [a-zA-Z0-9-_@./ ]"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents an Amazon marketplace."
+        }
+      ]
+    },
+    {
+      "name": "reports_list-cpc-campaign",
+      "description": "List all CPC reports. Required: start, end. Optional: limit (default: 100), cursor, campaign_ids (plus 4 more). Returns array of ReportsListCpcCampaignItem.",
+      "method": "GET",
+      "path": "/api/creator/v1/reports/cpc",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "start",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "end",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "campaign_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "link_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]"
+        },
+        {
+          "name": "source_id",
+          "type": "string",
+          "location": "query",
+          "description": "An ID that identifies where the created link will be used. Allowed characters: [a-zA-Z0-9-_@./ ]"
+        },
+        {
+          "name": "source_sub_id",
+          "type": "string",
+          "location": "query",
+          "description": "An ID that identifies where the created link will be used. Allowed characters: [a-zA-Z0-9-_@./ ]"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents an Amazon marketplace."
+        }
+      ]
+    },
+    {
+      "name": "seller-brands_get",
+      "description": "Get Brand by ID. Required: brand_id. Returns the BrandsGetResponse.",
+      "method": "GET",
+      "path": "/api/seller/v1/brands/{brand_id}",
+      "params": [
+        {
+          "name": "brand_id",
+          "type": "string",
+          "location": "path",
+          "description": "Brand id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "seller-brands_list",
+      "description": "List Brands. Optional: limit (default: 25), cursor, brand_ids (plus 2 more). Returns array of BrandsListItem.",
+      "method": "GET",
+      "path": "/api/seller/v1/brands",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "active",
+          "type": "string",
+          "location": "query",
+          "description": "Active"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents an Amazon marketplace."
+        }
+      ]
+    },
+    {
+      "name": "seller-brands-2_seller-get-v2",
+      "description": "Get Brand by ID. Required: brand_id. Returns the BrandsSellerGetV2Response.",
+      "method": "GET",
+      "path": "/api/seller/v2/brands/{brand_id}",
+      "params": [
+        {
+          "name": "brand_id",
+          "type": "string",
+          "location": "path",
+          "description": "Brand id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "seller-brands-2_seller-list-v2",
+      "description": "List Brands. Required: marketplace. Optional: limit (default: 25), cursor, brand_ids (plus 1 more). Returns array of BrandsSellerListV2Item.",
+      "method": "GET",
+      "path": "/api/seller/v2/brands",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "active",
+          "type": "string",
+          "location": "query",
+          "description": "Active"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents a Levanta marketplace (ex: amazon.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "seller-creator-connections_seller-list-campaigns",
+      "description": "List Your Creator Connections Campaigns. Optional: limit (default: 25), cursor, starts_after (plus 3 more). Returns array of CreatorConnectionsSellerListCampaignsItem.",
+      "method": "GET",
+      "path": "/api/seller/v1/creator-connections/campaigns",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "starts_after",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ"
+        },
+        {
+          "name": "ends_before",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Marketplace"
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        }
+      ]
+    },
+    {
+      "name": "seller-creator-connections_seller-list-creators",
+      "description": "List creators that appear in your Creator Connections reports. This includes both claimed (active on Levanta) and unclaimed (not yet on Levanta) creators. Optional: limit (default: 25), cursor, brand_ids (plus 1 more). Returns array of CreatorConnectionsSellerListCreatorsItem.",
+      "method": "GET",
+      "path": "/api/seller/v1/creator-connections/creators",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "creator_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        }
+      ]
+    },
+    {
+      "name": "seller-creator-connections_seller-list-reports",
+      "description": "List your creator connection reports. Reports are unique per campaign, creator.creatorConnectionsId, date, and asin. Required: start, end. Optional: limit (default: 100), cursor, brand_ids (plus 3 more). Returns array of CreatorConnectionsSellerListReportsItem.",
+      "method": "GET",
+      "path": "/api/seller/v1/creator-connections/reports",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "start",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "end",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "campaign_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "asins",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of ASINs representing an array."
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Marketplace"
+        }
+      ]
+    },
+    {
+      "name": "seller-creator-connections_seller-lookup-creator-by-ids",
+      "description": "Look up Creator Connections creators by their Amazon associates tags (e.g. levanta-20). Returns Levanta creator team IDs and metadata for the matched associates tags. Required: creatorConnectionsIds.",
+      "method": "GET",
+      "path": "/api/seller/v1/creator-connections/creators/lookup",
+      "params": [
+        {
+          "name": "creatorConnectionsIds",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "seller-creators_seller-get-v2",
+      "description": "Get Creator by ID. Required: id. Returns array of string.",
+      "method": "GET",
+      "path": "/api/seller/v2/creators/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "Id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "seller-creators_seller-list-v2",
+      "description": "List creators that you have an active partnership with. Filter by brand IDs. Optional: limit (default: 25), cursor, brand_ids. Returns array of CreatorsSellerListV2Item.",
+      "method": "GET",
+      "path": "/api/seller/v2/creators/active",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        }
+      ]
+    },
+    {
+      "name": "seller-products_list",
+      "description": "List your products. Filter by brand IDs and ASINs. Optional: limit (default: 25), cursor, brand_ids (plus 3 more). Returns array of ProductsListItem.",
+      "method": "GET",
+      "path": "/api/seller/v1/products",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]"
+        },
+        {
+          "name": "asins",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of ASINs representing an array."
+        },
+        {
+          "name": "active",
+          "type": "string",
+          "location": "query",
+          "description": "Active"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents an Amazon marketplace."
+        }
+      ]
+    },
+    {
+      "name": "seller-products-2_seller-list-v2",
+      "description": "List your products across brands. Filter by brand IDs and product IDs. Required: marketplace. Optional: limit (default: 25), cursor, brand_ids (plus 3 more). Returns array of ProductsSellerListV2Item.",
+      "method": "GET",
+      "path": "/api/seller/v2/products",
+      "params": [
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "product_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Filter products by their primary ID (ASIN, Walmart Item ID, Shopify Variant ID, or Wayfair Product ID)"
+        },
+        {
+          "name": "group_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Filter products by group ID. Products that share a group ID are variations of the same item (e.g. size, color) in a marketplace"
+        },
+        {
+          "name": "active",
+          "type": "string",
+          "location": "query",
+          "description": "Active"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents a Levanta marketplace (ex: amazon.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "seller-reports_list",
+      "description": "List per-product reports at the product/date/link granularity with a date range [start, end]. The difference in time between start and end date must be less than 1 year. Dates must be specified in ISO format with no offset (UTC), format: 'yyyy-MM-ddTHH:mm:ss.SSSZ'. Required: start, end. Optional: brand_ids, asins, limit (default: 25) (plus 3 more). Returns array of ReportsListItem.",
+      "method": "GET",
+      "path": "/api/seller/v1/reports",
+      "params": [
+        {
+          "name": "start",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "end",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]"
+        },
+        {
+          "name": "asins",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of ASINs representing an array."
+        },
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "payout_model",
+          "type": "string",
+          "location": "query",
+          "description": "The type of payout the item is associated with - Standard: commissioning based off of a percentage of sales. Cpc: commissions awarded per click"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents an Amazon marketplace."
+        }
+      ]
+    },
+    {
+      "name": "seller-reports_list-brbreports",
+      "description": "List brand referral bonus estimates for a given date range [start, end], bucketed by date. The difference in time between start and end date must be less than or equal to 90 days Dates must be specified in ISO format with no offset (UTC), format: 'yyyy-MM-ddTHH:mm:ss.SSSZ'. Required: start, end. Optional: marketplace (default: amazon.com), brand_id. Returns array of ReportsListBrbreportsItem.",
+      "method": "GET",
+      "path": "/api/seller/v1/reports/brb",
+      "params": [
+        {
+          "name": "start",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "end",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents an Amazon marketplace."
+        },
+        {
+          "name": "brand_id",
+          "type": "string",
+          "location": "query",
+          "description": "Brand id"
+        }
+      ]
+    },
+    {
+      "name": "seller-reports_list-click",
+      "description": "List click reports at the date/link granularity with a date range [start, end]. The difference in time between start and end date must be less than 1 year. Dates must be specified in ISO format with no offset (UTC), format: 'yyyy-MM-ddTHH:mm:ss.SSSZ'. Required: start, end. Optional: brand_ids, asin, limit (default: 25) (plus 3 more). Returns array of ReportsListClickItem.",
+      "method": "GET",
+      "path": "/api/seller/v1/reports/clicks",
+      "params": [
+        {
+          "name": "start",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "end",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "brand_ids",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of strings representing an array. Example: 1,2,3 equivalent to [1,2,3]"
+        },
+        {
+          "name": "asin",
+          "type": "string",
+          "location": "query",
+          "description": "Amazon Standard Identifier (ASIN) for an Amazon product. Example: B0EXAMPLE1"
+        },
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "marketplace",
+          "type": "string",
+          "location": "query",
+          "description": "Represents an Amazon marketplace."
+        },
+        {
+          "name": "payout_model",
+          "type": "string",
+          "location": "query",
+          "description": "The type of payout the item is associated with - Standard: commissioning based off of a percentage of sales. Cpc: commissions awarded per click"
+        }
+      ]
+    },
+    {
+      "name": "seller-reports-2_seller-list-conversions-v2",
+      "description": "Conversion-level sales data for Walmart, Shopify, and Wayfair. Date range must not exceed 60 days. Required: start, end. Optional: marketplaces, brandIds, productIds (plus 3 more). Returns array of ReportsSellerListConversionsV2Item.",
+      "method": "GET",
+      "path": "/api/seller/v2/reports/conversions",
+      "params": [
+        {
+          "name": "start",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "end",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "marketplaces",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of marketplaces to include (walmart.com, shopify.com, wayfair.com). Amazon is not supported."
+        },
+        {
+          "name": "brandIds",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "productIds",
+          "type": "string",
+          "location": "query",
+          "description": "Filter by product primary ID (Walmart Item ID, Shopify Variant ID, Wayfair Product ID). ASINs are not supported."
+        },
+        {
+          "name": "creatorIds",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        },
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        }
+      ]
+    },
+    {
+      "name": "seller-reports-2_seller-list-performance-by-brand-v2",
+      "description": "Aggregated performance metrics across all marketplaces, grouped by brand. Required: start, end. Optional: currency (default: USD), marketplaces, brandIds (plus 4 more). Returns array of ReportsSellerListPerformanceByBrandV2Item.",
+      "method": "GET",
+      "path": "/api/seller/v2/reports/performance/brand",
+      "params": [
+        {
+          "name": "start",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "end",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "location": "query",
+          "description": "Target currency for monetary metrics. Defaults to USD."
+        },
+        {
+          "name": "marketplaces",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of marketplaces to include. Defaults to all marketplaces."
+        },
+        {
+          "name": "brandIds",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "productIds",
+          "type": "string",
+          "location": "query",
+          "description": "Filter by product primary ID (ASIN, Walmart Item ID, Shopify Variant ID, Wayfair Product ID)"
+        },
+        {
+          "name": "creatorIds",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        }
+      ]
+    },
+    {
+      "name": "seller-reports-2_seller-list-performance-by-creator-v2",
+      "description": "Aggregated performance metrics across all marketplaces, grouped by creator. Required: start, end. Optional: currency (default: USD), marketplaces, brandIds (plus 4 more). Returns array of ReportsSellerListPerformanceByCreatorV2Item.",
+      "method": "GET",
+      "path": "/api/seller/v2/reports/performance/creator",
+      "params": [
+        {
+          "name": "start",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "end",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "location": "query",
+          "description": "Target currency for monetary metrics. Defaults to USD."
+        },
+        {
+          "name": "marketplaces",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of marketplaces to include. Defaults to all marketplaces."
+        },
+        {
+          "name": "brandIds",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "productIds",
+          "type": "string",
+          "location": "query",
+          "description": "Filter by product primary ID (ASIN, Walmart Item ID, Shopify Variant ID, Wayfair Product ID)"
+        },
+        {
+          "name": "creatorIds",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        }
+      ]
+    },
+    {
+      "name": "seller-reports-2_seller-list-performance-by-date-v2",
+      "description": "Aggregated performance metrics across all marketplaces, grouped by date. Required: start, end. Optional: currency (default: USD), marketplaces, brandIds (plus 2 more). Returns array of ReportsSellerListPerformanceByDateV2Item.",
+      "method": "GET",
+      "path": "/api/seller/v2/reports/performance/date",
+      "params": [
+        {
+          "name": "start",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "end",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "location": "query",
+          "description": "Target currency for monetary metrics. Defaults to USD."
+        },
+        {
+          "name": "marketplaces",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of marketplaces to include. Defaults to all marketplaces."
+        },
+        {
+          "name": "brandIds",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "productIds",
+          "type": "string",
+          "location": "query",
+          "description": "Filter by product primary ID (ASIN, Walmart Item ID, Shopify Variant ID, Wayfair Product ID)"
+        },
+        {
+          "name": "creatorIds",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        }
+      ]
+    },
+    {
+      "name": "seller-reports-2_seller-list-performance-by-product-v2",
+      "description": "Aggregated performance metrics across all marketplaces, grouped by product. Required: start, end. Optional: currency (default: USD), marketplaces, brandIds (plus 4 more). Returns array of ReportsSellerListPerformanceByProductV2Item.",
+      "method": "GET",
+      "path": "/api/seller/v2/reports/performance/product",
+      "params": [
+        {
+          "name": "start",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "end",
+          "type": "string",
+          "location": "query",
+          "description": "Date in ISO Format without offset (UTC): YYYY-MM-DDTHH:mm:ss.SSSZ",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "location": "query",
+          "description": "Target currency for monetary metrics. Defaults to USD."
+        },
+        {
+          "name": "marketplaces",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of marketplaces to include. Defaults to all marketplaces."
+        },
+        {
+          "name": "brandIds",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "productIds",
+          "type": "string",
+          "location": "query",
+          "description": "Filter by product primary ID (ASIN, Walmart Item ID, Shopify Variant ID, Wayfair Product ID)"
+        },
+        {
+          "name": "creatorIds",
+          "type": "string",
+          "location": "query",
+          "description": "Comma-delimited list of UUIDs representing an array"
+        },
+        {
+          "name": "limit",
+          "type": "float",
+          "location": "query",
+          "description": "The maximum number of items to return"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "The cursor returned from the last request, if omitted the first page will be returned"
+        }
+      ]
+    }
+  ],
+  "novel_features": [
+    {
+      "name": "Unpaid payouts",
+      "command": "unpaid",
+      "description": "List synced invoice items that are still pending or late."
+    },
+    {
+      "name": "Earnings reconcile",
+      "command": "earnings reconcile",
+      "description": "Flag invoice items whose commission or paid status disagrees with stored report rows."
+    },
+    {
+      "name": "Links that earned",
+      "command": "earned",
+      "description": "Roll creator report rows up to one line per link that earned commission."
+    },
+    {
+      "name": "Payout gap",
+      "command": "payout gap",
+      "description": "Show brand-months where reports earned commission and no invoice item exists."
+    },
+    {
+      "name": "Links that stopped earning",
+      "command": "stalled",
+      "description": "List active links that earned commission in the previous window and earn nothing now."
+    },
+    {
+      "name": "Creator ROI",
+      "command": "creator roi",
+      "description": "Rank seller creators by commission-to-sales and by the change versus the previous window."
+    }
+  ]
+}

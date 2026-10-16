@@ -1,0 +1,16 @@
+# agentcookie.toml: secrets-bus adoption manifest v2
+# See docs/spec-agentcookie-secrets-bus-v2-adoption.md
+schema_version = 2
+name = "levanta-pp-cli"
+display_name = "Levanta"
+description = "The payout ledger for Levanta creator commerce: unpaid invoices, link earnings, and seller creator ROI from a local store."
+project_kind = "cli"
+
+[secrets.file]
+path = "~/.config/levanta-pp-cli/config.toml"
+
+[sync]
+default = false
+
+[sync.keys]
+LEVANTA_API_KEY = true

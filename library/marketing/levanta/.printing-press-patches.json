@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "applied_at": "2026-10-15",
+  "base_run_id": "20261015-233040-b7767b71",
+  "base_printing_press_version": "4.33.5",
+  "patches": [
+    {
+      "id": "stable-row-ids",
+      "summary": "Invoice, creator report, and seller v2 performance rows get stable storage keys.",
+      "reason": "The profiler keyed invoices by month and creator reports by ASIN, so sync collapsed distinct payout and earnings rows. January is month 0, which the composite-id helper also rejects.",
+      "files": ["internal/store/levanta_ids.go", "internal/store/store.go"]
+    },
+    {
+      "id": "payout-ledger-commands",
+      "summary": "Local commands unpaid, earnings reconcile, earned, payout gap, stalled, and creator roi.",
+      "reason": "These ledger questions are not a single Levanta endpoint. They read synced invoice, report, link, and seller rows.",
+      "files": ["internal/cli/ledger.go", "internal/cli/unpaid.go", "internal/cli/earned.go", "internal/cli/earnings_reconcile.go", "internal/cli/payout_gap.go", "internal/cli/stalled.go", "internal/cli/creator_roi.go"]
+    },
+    {
+      "id": "drop-unused-dry-run-stamper",
+      "summary": "Removed the unused printStampedDryRunOutput helper.",
+      "reason": "Generated commands stamp dry-run envelopes with stampDryRunEnvelope. Dogfood flagged the unused wrapper as a dead helper.",
+      "files": ["internal/cli/helpers.go"]
+    }
+  ]
+}

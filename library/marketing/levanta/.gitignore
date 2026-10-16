@@ -1,0 +1,8 @@
+# Root-anchored so cmd/<binary>/ source stays tracked.
+/levanta-pp-cli
+/levanta-pp-cli.exe
+/levanta-pp-mcp
+/levanta-pp-mcp.exe
+/bin/
+/build/
+/dist/
