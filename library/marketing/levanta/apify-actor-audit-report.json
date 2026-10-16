@@ -1,0 +1,9 @@
+{
+  "dir": "\u003ccli-dir\u003e/levanta-pp-cli",
+  "research_dir": "\u003ccli-dir\u003e/20261015-233040-b7767b71",
+  "verdict": "pass",
+  "actors": null,
+  "issues": [
+    "no Apify actor references found, skipping"
+  ]
+}
