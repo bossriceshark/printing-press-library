@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "api_name": "aruba-central",
+  "run_id": "20261027-164100",
+  "status": "pass",
+  "level": "offline-shipcheck",
+  "live_tenant": false,
+  "live_api_calls": 0,
+  "note": "No customer New Central tokens were available. status pass records the offline shipcheck in acceptance-shipcheck.md and doctor-missing-creds.json: go test (httptest sync/brief/export, doctor missing credentials, Classic host rejection, write dry-run), plus a built binary --version. It is not a live tenant dogfood.",
+  "evidence": [
+    ".manuscripts/20261027-164100/proofs/acceptance-shipcheck.md",
+    ".manuscripts/20261027-164100/proofs/doctor-missing-creds.json"
+  ],
+  "checks": [
+    {
+      "name": "go test ./...",
+      "result": "pass",
+      "detail": "internal/central, internal/config, internal/client, and internal/cli. TestSyncBriefExport uses httptest for the token endpoint and sync paths, then checks one down device (serial SN1), one critical alert, one firmware drift row (running 1.0, recommended 2.0), and export table sites length 1."
+    },
+    {
+      "name": "doctor missing credentials",
+      "result": "pass",
+      "detail": "Empty TOML and empty CENTRAL_* variables. Exit code 10. JSON missing lists CENTRAL_BASE_URL, CENTRAL_CLIENT_ID, and CENTRAL_CLIENT_SECRET. See doctor-missing-creds.json."
+    },
+    {
+      "name": "classic host rejected",
+      "result": "pass",
+      "detail": "TestClassicRejected rejects apigw-prod2.central.arubanetworks.com."
+    },
+    {
+      "name": "write dry-run",
+      "result": "pass",
+      "detail": "TestBouncePortDryRun runs device bounce-port --serial SN1 --ports 1 with writes disabled. Stdout has dry_run true and path portBounce. Nothing is sent."
+    },
+    {
+      "name": "binary smoke",
+      "result": "pass",
+      "detail": "go build of cmd/aruba-central-pp-cli succeeded. --version printed aruba-central-pp-cli 0.1.0. --help lists auth, doctor, sync, sites, devices, clients, alerts, events, firmware, subscriptions, wlans, audit, brief, export, api, device, which."
+    }
+  ]
+}

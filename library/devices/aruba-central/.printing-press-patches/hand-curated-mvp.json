@@ -1,0 +1,11 @@
+{
+  "schema_version": 2,
+  "id": "hand-curated-mvp",
+  "applied_at": "2026-10-27",
+  "base_run_id": "20261027-164100",
+  "base_printing_press_version": "hand-curated-2026.10.27",
+  "summary": "This CLI is a curated New Central subset (sync, brief, export, doctor, and the reads around them), not a full ReadMe-hub print.",
+  "reason": "cli-printing-press was not available for this publication. A regen that emits all ~1,736 New Central operations would replace the customer-share surface; preserve the SQLite mirror, the 10 req/s client budget, Classic Central rejection, and writes gated on ENABLE_WRITES=1 plus --yes. The raw api command stays the escape hatch for paths without their own subcommand.",
+  "files": ["internal/cli/root.go"],
+  "validated_outcome": "go test ./... passed offline. doctor with an empty config exits 10 and names CENTRAL_BASE_URL, CENTRAL_CLIENT_ID, and CENTRAL_CLIENT_SECRET. A httptest sync fills SQLite and brief reports a down device, a critical alert, and firmware drift. No live customer tenant was called."
+}

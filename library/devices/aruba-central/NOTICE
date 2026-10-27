@@ -1,0 +1,15 @@
+aruba-central-pp-cli
+Copyright 2026 Matt Rice and contributors
+
+Created by Matt Rice (@bossriceshark).
+
+This CLI is a curated New Central client for the printing-press library.
+cli-printing-press was not available in the environment that produced this tree, so the
+v0.1 command surface (sync, brief, export, doctor, and the read commands around them)
+was written by hand against public New Central paths. It is not output from the generator.
+
+Endpoint paths follow public documentation and the MIT-licensed pycentral v2 SDK
+docstrings (Hewlett Packard Enterprise). No customer credentials are included.
+
+CLI Printing Press is licensed separately under the MIT License.
+https://github.com/mvanhorn/cli-printing-press
