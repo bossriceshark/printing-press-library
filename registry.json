@@ -177,6 +177,15 @@
       }
     },
     {
+      "name": "aruba-central",
+      "category": "devices",
+      "api": "Aruba Central",
+      "description": "",
+      "path": "library/devices/aruba-central",
+      "printer": "cursor-agent",
+      "printer_name": "Cursor Agent"
+    },
+    {
       "name": "arxiv",
       "category": "other",
       "api": "arXiv",
