@@ -1,0 +1,38 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "HPE Aruba New Central (curated subset)",
+    "version": "0.1.0",
+    "description": "Curated subset of New Central monitoring, notifications, troubleshooting, and services paths used by aruba-central-pp-cli 0.1.0. This is not the full 32-file ReadMe hub. Classic Central is intentionally absent. Paths were taken from public pycentral v2 docstrings (MIT) and the central-mcp-server tool list."
+  },
+  "servers": [
+    {"url": "https://{cluster}.api.central.arubanetworks.com", "variables": {"cluster": {"default": "us5"}}}
+  ],
+  "components": {
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://sso.common.cloud.hpe.com/as/token.oauth2",
+            "scopes": {}
+          }
+        }
+      }
+    }
+  },
+  "security": [{"oauth2": []}],
+  "paths": {
+    "/network-monitoring/v1/sites-health": {"get": {"operationId": "listSitesHealth", "responses": {"200": {"description": "Site health page"}}}},
+    "/network-monitoring/v1/devices": {"get": {"operationId": "listDevices", "responses": {"200": {"description": "Monitored devices"}}}},
+    "/network-monitoring/v1/clients": {"get": {"operationId": "listClients", "responses": {"200": {"description": "Clients"}}}},
+    "/network-monitoring/v1/clients-topn-usage": {"get": {"operationId": "topClients", "responses": {"200": {"description": "Top clients by usage"}}}},
+    "/network-monitoring/v1/wlans": {"get": {"operationId": "listWlans", "responses": {"200": {"description": "WLANs"}}}},
+    "/network-monitoring/v1/subscription-expiring-summary": {"get": {"operationId": "subscriptionExpiringSummary", "responses": {"200": {"description": "Expiring subscriptions"}}}},
+    "/network-notifications/v1/alerts": {"get": {"operationId": "listAlerts", "responses": {"200": {"description": "Alerts"}}}},
+    "/network-notifications/v1/insights": {"get": {"operationId": "listInsights", "responses": {"200": {"description": "Insights"}}}},
+    "/network-troubleshooting/v1/events": {"get": {"operationId": "listEvents", "responses": {"200": {"description": "Events for a site context"}}}},
+    "/network-services/v1/firmware-details": {"get": {"operationId": "firmwareDetails", "responses": {"200": {"description": "Firmware details"}}}},
+    "/network-services/v1/audits": {"get": {"operationId": "listAudits", "responses": {"200": {"description": "Audit records"}}}}
+  }
+}

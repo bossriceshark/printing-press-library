@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-27T16:55:00Z",
+  "printing_press_version": "hand-curated-2026.10.27",
+  "api_name": "aruba-central",
+  "display_name": "Aruba Central",
+  "cli_name": "aruba-central-pp-cli",
+  "category": "devices",
+  "owner": "cursor-agent",
+  "printer": "cursor-agent",
+  "printer_name": "Cursor Agent",
+  "spec_format": "openapi3",
+  "spec_path": "spec.json",
+  "spec_source": "curated-subset",
+  "spec_checksum": "sha256:fb1b908c094b444c6e7a3608c823a44fbe980d04c6df7ebbb2fa24000f9ccb86",
+  "spec_url": "https://developer.arubanetworks.com/new-central/docs/getting-started-with-rest-apis",
+  "run_id": "20261027-164100",
+  "auth_type": "oauth2_client_credentials",
+  "auth_env_vars": [
+    "CENTRAL_BASE_URL",
+    "CENTRAL_CLIENT_ID",
+    "CENTRAL_CLIENT_SECRET"
+  ],
+  "novel_features": [
+    {
+      "name": "SQLite fleet sync",
+      "command": "sync",
+      "description": "Rate-limited mirror of sites, devices, clients, alerts, events, firmware, subscriptions, WLANs, and audit into local SQLite so agents stop re-hitting the account-wide 10 req/s cap."
+    },
+    {
+      "name": "Fleet brief",
+      "command": "brief",
+      "description": "One local rollup: down devices, critical alerts, firmware drift, subscriptions inside the window, and worst sites."
+    },
+    {
+      "name": "Mirror export",
+      "command": "export",
+      "description": "Dump the SQLite mirror as one JSON document or a directory of CSV files for agent ingest."
+    },
+    {
+      "name": "Credential doctor",
+      "command": "doctor",
+      "description": "Exit non-zero with a JSON error naming CENTRAL_BASE_URL, CENTRAL_CLIENT_ID, and CENTRAL_CLIENT_SECRET when any is missing. Rejects Classic Central hosts."
+    }
+  ]
+}

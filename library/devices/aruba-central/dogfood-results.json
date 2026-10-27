@@ -1,0 +1,39 @@
+{
+  "dir": "library/devices/aruba-central",
+  "spec_path": "library/devices/aruba-central/spec.json",
+  "verdict": "WARN",
+  "path_check": {
+    "tested": 11,
+    "valid": 11,
+    "valid_pct": 100,
+    "detail": "Curated spec.json lists the 11 New Central paths the syncer calls. Not the full ReadMe hub."
+  },
+  "auth_check": {
+    "spec_scheme": "oauth2 clientCredentials",
+    "generated_format": "oauth2_client_credentials",
+    "match": true,
+    "detail": "POST https://sso.common.cloud.hpe.com/as/token.oauth2 with HTTP Basic client id/secret and grant_type=client_credentials. Cache expires_in, default 2h."
+  },
+  "browser_session_check": {
+    "required": false,
+    "pass": true,
+    "detail": "No browser login. Customer-owned Personal API client."
+  },
+  "live_api_dogfood": {
+    "skipped": true,
+    "reason": "No CENTRAL_CLIENT_ID or CENTRAL_CLIENT_SECRET in the publish environment. httptest covers sync, brief, and export."
+  },
+  "novel_features_check": {
+    "planned": 4,
+    "found": 4,
+    "commands": ["sync", "brief", "export", "doctor"]
+  },
+  "test_presence": {
+    "packages_ok": ["internal/central", "internal/config", "internal/client", "internal/cli"]
+  },
+  "rate_limit": {
+    "account_rps": 10,
+    "client_default_rps": 10,
+    "retry_after": true
+  }
+}
